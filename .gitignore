@@ -1,0 +1,9 @@
+*.o
+.DS_Store
+*.swp
+*.a
+cub3d
+a.out
+.vscode/
+.VSCodeCounter/
+*.txt

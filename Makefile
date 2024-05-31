@@ -1,6 +1,6 @@
 NAME = cub3d
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -I ./include -I ./libft/libft.h #-g3 -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -I ./include -I ./libft/ #-g3 -fsanitize=address
 
 RM = rm -f
 
@@ -40,7 +40,7 @@ $(OBJ_DIR)%.o: $(PRS_DIR)%.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 # Objects for Game
-$(OBJ_DIR)%.o: $(GM_DIR)%.c
+$(OBJ_DIR)%.o: $(GME_DIR)%.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 # basic library compiled

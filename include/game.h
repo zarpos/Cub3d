@@ -19,13 +19,27 @@
 #define PURPLE "../src/sprites/purplestone.png"
 #define BRICK "../src/sprites/redbrick.png"
 #define WOOD "../src/sprites/wood.png"
-#define SCREEN_X 1920
-#define SCREEN_Y 1080
+#define SCREEN_X 640
+#define SCREEN_Y 480
+#define W 119
+#define A 97
+#define S 115
+#define D 100
+
+#define K_ESC 65307
+#define CROSS 17
+
+#define UP 65362
+#define DOWN 65364
+#define RIGHT 65363
+#define LEFT 65361
 
 typedef struct s_player
 {
-	int player_x;
-	int player_y;
+	double player_x;
+	double player_y;
+	double	dirX;
+	double	dirY;
 } t_player;
 
 
@@ -35,8 +49,6 @@ typedef struct s_map
 	char	**map;
 	size_t	map_width;
 	size_t	map_height;
-	int		player_x;
-	int		player_y;
 } t_map;
 
 typedef	struct s_game

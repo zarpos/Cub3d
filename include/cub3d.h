@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drubio-m <drubio-m@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: fdiaz-gu <fdiaz-gu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 13:52:16 by drubio-m          #+#    #+#             */
-/*   Updated: 2024/05/01 14:21:40 by drubio-m         ###   ########.fr       */
+/*   Updated: 2024/07/10 13:09:47 by fdiaz-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # include <curses.h>			
 # include <limits.h>
 # include <math.h>
-
+# include "../minilibx-linux/mlx.h"
 // Our libraries
 # include "../libft/libft.h"
 # include "parser.h"

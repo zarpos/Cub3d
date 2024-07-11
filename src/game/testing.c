@@ -71,6 +71,7 @@ void verLine (t_info *info, int x, int y1, int y2, int color)
 
 int main_loop(t_info *info)
 {
+
     // // '현재' 프레임의 시간.
     // double time = 0;
     // // '이전' 프레임의 시간.
@@ -274,7 +275,6 @@ int main_loop(t_info *info)
 
 int key_press(int key, t_info *info)
 {
-		printf("HOLAA\n");
 
     // WS
     if (key == W)
@@ -308,7 +308,7 @@ int key_press(int key, t_info *info)
     if (key == A)
     {
         double oldDirectionX = info->directionVectorX;
-        info->directionVectorX = info->directionVectorX * cos(info->rotSpeed) - info->directionVectorY * sin(info->rotSpeed);
+        info->directionVectorX = info->directionVectorX *   (info->rotSpeed) - info->directionVectorY * sin(info->rotSpeed);
         info->directionVectorY = oldDirectionX * sin(info->rotSpeed) + info->directionVectorY * cos(info->rotSpeed);
         double oldPlaneX = info->planeX;
         info->planeX = info->planeX * cos(info->rotSpeed) - info->planeY * sin(info->rotSpeed);
@@ -359,8 +359,8 @@ int main()
     // main_loop함수를 실행. 이 부분이 중요.
     mlx_loop_hook(info.mlx, &main_loop, &info);
     // press에 대한 이벤트를 등록.
-		mlx_hook(info.win, CROSS, 0, &end_program, &info);
+	mlx_hook(info.win, DESTROY, 0, &end_program, &info);
 
-    mlx_hook(info.win, X_EVENT_KEY_PRESS, 0, &key_press, &info);
+    mlx_hook(info.win, X_EVENT_KEY_PRESS, 1L<<0, &key_press, &info);
     mlx_loop(info.mlx);
 }

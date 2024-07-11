@@ -21,13 +21,14 @@
 #define WOOD "../src/sprites/wood.png"
 #define SCREEN_X 640
 #define SCREEN_Y 480
+#define KEY_PRESS 2
 #define W 119
 #define A 97
 #define S 115
 #define D 100
 
 #define K_ESC 65307
-#define CROSS 17
+#define DESTROY 17
 
 #define UP 65362
 #define DOWN 65364

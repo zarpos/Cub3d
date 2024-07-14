@@ -35,21 +35,41 @@
 #define RIGHT 65363
 #define LEFT 65361
 
+#define texWidth 64
+#define texHeight 64
+
+#define FORWARD 1
+#define BACKWARD -1
+
 typedef struct s_player
 {
 	double player_x;
 	double player_y;
 	double	dirX;
 	double	dirY;
+	double	moveSpeed;
+	double	rotSpeed;
+	double	planeX;
+    double	planeY;
 } t_player;
 
-
+typedef struct s_im
+{
+	void	*img;
+	char	*addr;
+	int		endian;
+	int		len;
+	int		bpp;
+}				t_im;
 
 typedef struct s_map
 {	
 	char	**map;
 	size_t	map_width;
 	size_t	map_height;
+	int     **buf;
+    int     texture[8][texHeight * texWidth];
+
 } t_map;
 
 typedef	struct s_game
@@ -59,6 +79,7 @@ typedef	struct s_game
 	void		*img;
 	t_map		*map;
 	t_player	*player;
+	t_im		*image;
 	
 }	t_game;
 

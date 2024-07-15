@@ -15,8 +15,8 @@
 #define mapWidth 24
 #define mapHeight 24
 
-int calculateAndSaveToMap(t_info *info);
-void imageDraw(t_info *info);
+int calculateAndSaveToMap(t_game *info);
+void imageDraw(t_game *info);
 
 int worldMap[mapWidth][mapHeight] =
     {
@@ -45,10 +45,10 @@ int worldMap[mapWidth][mapHeight] =
         {4, 0, 0, 0, 0, 0, 0, 0, 0, 4, 6, 0, 6, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2},
         {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3}};
 
-int main_loop(t_gam *game)
+int main_loop(t_game *game)
 {
-    calculateAndSaveToMap(info);
-    imageDraw(info);
+    calculateAndSaveToMap(game);    
+	return (1);
 }
 void drawLine(t_game *game, int x, int y1, int y2, int color)
 {
@@ -161,64 +161,50 @@ int calculateAndSaveToMap(t_game *game)
     return (0);
 }
 
-int key_press(int key, t_game *game)
+void player_movements(t_game *game, int direction)
 {
-    // WS
-    if (key == W)
-    {
-        if (!worldMap[(int)(game->player->player_y + game->player->dirX * game->player->moveSpeed)][(int)(game->player->player_y)])
-            game->player->player_x += game->player->dirX * game->player->moveSpeed;
-        if (!worldMap[(int)(game->player->player_x)][(int)(game->player->player_y + game->player->dirY * game->player->moveSpeed)])
-            game->player->player_y += game->player->dirY * game->player->moveSpeed;
-    }
+    double moveX = direction * game->player->moveSpeed * game->player->dirX;
+    double moveY = direction * game->player->moveSpeed * game->player->dirY;
 
-    if (key == S)
-    {
+    //TODO: cambiar worldMap por game->map->map
+    if (!worldMap[(int)(game->player->player_x + moveX)]
+        [(int)(game->player->player_y)])
+            game->player->player_x += moveX;
+    if (!worldMap[(int)game->player->player_x][(int)(game->player->player_y + moveY)])
+            game->player->player_y += moveY;
+}
 
-        if (!worldMap[(int)(game->player->player_x - game->player->dirX * game->player->moveSpeed)][(int)(game->player->player_y)])
-            game->player->player_x -= game->player->dirX * game->player->moveSpeed;
-        if (!worldMap[(int)(game->player->player_x)][(int)(game->player->player_y - game->player->dirY * game->player->moveSpeed)])
-            game->player->player_y -= game->player->dirY * game->player->moveSpeed;
-    }
+void    player_rotations(t_game *game, double rotSpeed)
+{
+    double oldDirX;
+    double oldPlaneX;
 
-    if (key == A)
-    {
-        double oldDirectionX = game->player->dirX;
-        game->player->dirX = game->player->dirX * cos(game->player->rotSpeed) - game->player->dirY * sin(game->player->rotSpeed);
-        game->player->dirY = oldDirectionX * sin(game->player->rotSpeed) + game->player->dirY * cos(game->player->rotSpeed);
-        double oldPlaneX = game->player->planeX;
-        game->player->planeX = game->player->planeX * cos(game->player->rotSpeed) - game->player->planeY * sin(game->player->rotSpeed);
-        game->player->planeY = oldPlaneX * sin(game->player->rotSpeed) + game->player->planeY * cos(game->player->rotSpeed);
-    }
-
-    if (key == D)
-    {
-        double oldDirectionX = game->player->dirX;
-        game->player->dirX = game->player->dirX * cos(-game->player->rotSpeed) - game->player->dirY * sin(-game->player->rotSpeed);
-        game->player->dirY = oldDirectionX * sin(-game->player->rotSpeed) + game->player->dirY * cos(-game->player->rotSpeed);
-        double oldPlaneX = game->player->planeX;
-        game->player->planeX = game->player->planeX * cos(-game->player->rotSpeed) - game->player->planeY * sin(-game->player->rotSpeed);
-        game->player->planeY = oldPlaneX * sin(-game->player->rotSpeed) + game->player->planeY * cos(-game->player->rotSpeed);
-    }
-    return (0);
+    oldDirX = game->player->dirX;
+    oldPlaneX = game->player->planeX;
+    game->player->dirX = game->player->dirX * cos(rotSpeed) - game->player->dirY * sin(rotSpeed);
+    game->player->dirY = oldDirX * sin(rotSpeed) * game->player->dirY * cos(rotSpeed);
+    game->player->planeX = game->player->planeX * cos(rotSpeed) - game->player->planeY * sin(rotSpeed);
+    game->player->planeY = oldPlaneX * sin(rotSpeed) + game->player->planeY * cos(rotSpeed);
 }
 
 // ➜  Cub3d git:(fede) ✗ gcc -o main ./src/game/main_game.c -Lminilibx-linux -lmlx -lX11 -lXext -lXrandr -lXinerama -lXcursor -lXfixes -lm -Wall -Werror -Wextra  && ./main
-//  void player_vision(int keycode, t_game *game)
-//  {
-//      (void) keycode, (void) game;
-//      if (keycode == A || keycode == LEFT)
-//          //TODO: girar dcha
-//      if (keycode == D || keycode == RIGHT)
-//  }       //TODO: girar izq
+ void player_vision(int keycode, t_game *game)
+ {
 
-// void player_movement(int keycode, t_game *game)
-// {
-//     (void) keycode, (void) game;
-//     if (keycode == W || keycode == UP)
-//         //TODO: mover parriba
-//     if (keycode == S || keycode == DOWN)
-// }       //TODO: pabajo
+	if	(keycode == A || keycode == LEFT)
+		player_rotations(game, game->player->rotSpeed);
+	if (keycode == D || keycode == RIGHT)
+		player_rotations(game, -game->player->rotSpeed);
+
+ }
+
+void player_movement(int keycode, t_game *game)
+{    
+    if (keycode == W || keycode == UP)
+        player_movements(game, FORWARD); 
+    if (keycode == S || keycode == DOWN)
+        player_movements(game, BACKWARD);
+}
 int end_program(void *l)
 {
     (void)l;
@@ -227,11 +213,10 @@ int end_program(void *l)
 
 int handle_keys(int keycode, t_game *game)
 {
+    player_movement(keycode, game);
+    player_vision(keycode, game);
     if (keycode == K_ESC)
-        end_program(game); // TODO: Exit function
-    (void)game;
-    // player_movement(keycode, game);
-    // player_vision(keycode, game);
+        end_program(game);
     return (0);
 }
 
@@ -253,12 +238,11 @@ int main(void)
     t_player *player = malloc(sizeof(t_player) * 1);
     game.player = player;
     init_values(game);
-    printf("NUM1: %f", game.player->planeY);
     game.mlx = mlx_init();
     game.mlx_win = mlx_new_window(game.mlx, SCREEN_X, SCREEN_Y, "CUB</3D");
     mlx_loop_hook(game.mlx, &main_loop, &game);
     //*Cerrar con x
     mlx_hook(game.mlx_win, DESTROY, 0, &end_program, &game);
-    mlx_hook(game.mlx_win, KEY_PRESS, (1L << 0), &key_press, &game);
+    mlx_hook(game.mlx_win, KEY_PRESS, (1L << 0), &handle_keys, &game);
     mlx_loop(game.mlx);
 }

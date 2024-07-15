@@ -428,8 +428,8 @@ int main()
     info.mlx = mlx_init();
 
     // info는 아래 필드 모두를 가지고 있다.
-    info.playerPositionX = 22.0;
-    info.playerPositionY = 11.5;
+    info.playerPositionX = 2.0;
+    info.playerPositionY = 1.5;
     info.directionVectorX = -1.0;
     info.directionVectorY = 0.0;
     info.planeX = 0.0;

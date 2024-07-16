@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_game.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fdiaz-gu <fdiaz-gu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/10 23:17:17 by marvin            #+#    #+#             */
-/*   Updated: 2024/07/10 23:17:17 by marvin           ###   ########.fr       */
+/*   Created: 2024/07/10 12:54:42 by fdiaz-gu          #+#    #+#             */
+/*   Updated: 2024/07/16 12:54:42 by fdiaz-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int worldMap[mapWidth][mapHeight] =
 
 int main_loop(t_game *game)
 {
-    calculateAndSaveToMap(game);    
+    hande_raycasting(game);    
 	return (1);
 }
 void drawLine(t_game *game, int x, int y1, int y2, int color)
@@ -62,9 +62,19 @@ void drawLine(t_game *game, int x, int y1, int y2, int color)
     }
 }
 
-int calculateAndSaveToMap(t_game *game)
+int hande_raycasting(t_game *game)
 {
     int x;
+
+    x = 0;
+    while (x < SCREEN_X)
+    {
+        init_raycast_variables(game, x);
+        looping_rays(game);
+        x++;
+    }
+    //TODO: REEeefactoooooooooooooooooooooor
+   /*  int x;
 
     x = 0;
     while (x < SCREEN_X)
@@ -72,8 +82,8 @@ int calculateAndSaveToMap(t_game *game)
         double cameraX = (2 * x / (double)(SCREEN_X)) - 1;
         double rayDirectionX = game->player->dirX + game->player->planeX * cameraX;
         double rayDirectionY = game->player->dirY + game->player->planeY * cameraX;
-        int mapX = (int)(game->player->player_x);
-        int mapY = (int)(game->player->player_y);
+        int mapX = (int)(game->player->playerX);
+        int mapY = (int)(game->player->playerY);
 
         double sideDistX;
         double sideDistY;
@@ -91,22 +101,22 @@ int calculateAndSaveToMap(t_game *game)
         if (rayDirectionX < 0)
         {
             stepX = -1;
-            sideDistX = (game->player->player_x - mapX) * deltaDistX;
+            sideDistX = (game->player->playerX - mapX) * deltaDistX;
         }
         else
         {
             stepX = 1;
-            sideDistX = (mapX + 1.0 - game->player->player_x) * deltaDistX;
+            sideDistX = (mapX + 1.0 - game->player->playerX) * deltaDistX;
         }
         if (rayDirectionY < 0)
         {
             stepY = -1;
-            sideDistY = (game->player->player_y - mapY) * deltaDistY;
+            sideDistY = (game->player->playerY - mapY) * deltaDistY;
         }
         else
         {
             stepY = 1;
-            sideDistY = (mapY + 1.0 - game->player->player_y) * deltaDistY;
+            sideDistY = (mapY + 1.0 - game->player->playerY) * deltaDistY;
         }
 
         while (hit == 0)
@@ -128,9 +138,9 @@ int calculateAndSaveToMap(t_game *game)
                 hit = 1;
         }
         if (side == 0)
-            perpWallDist = (mapX - game->player->player_x + (1 - stepX) / 2) / rayDirectionX;
+            perpWallDist = (mapX - game->player->playerX + (1 - stepX) / 2) / rayDirectionX;
         else
-            perpWallDist = (mapY - game->player->player_y + (1 - stepY) / 2) / rayDirectionY;
+            perpWallDist = (mapY - game->player->playerY + (1 - stepY) / 2) / rayDirectionY;
 
         int lineHeight = (int)(SCREEN_Y / perpWallDist);
 
@@ -157,7 +167,7 @@ int calculateAndSaveToMap(t_game *game)
             color = color / 2;
         drawLine(game, x, drawStart, drawEnd, color);
         x++;
-    }
+    } */
     return (0);
 }
 
@@ -167,11 +177,11 @@ void player_movements(t_game *game, int direction)
     double moveY = direction * game->player->moveSpeed * game->player->dirY;
 
     //TODO: cambiar worldMap por game->map->map
-    if (!worldMap[(int)(game->player->player_x + moveX)]
-        [(int)(game->player->player_y)])
-            game->player->player_x += moveX;
-    if (!worldMap[(int)game->player->player_x][(int)(game->player->player_y + moveY)])
-            game->player->player_y += moveY;
+    if (!worldMap[(int)(game->player->playerX + moveX)]
+        [(int)(game->player->playerY)])
+            game->player->playerX += moveX;
+    if (!worldMap[(int)game->player->playerX][(int)(game->player->playerY + moveY)])
+            game->player->playerY += moveY;
 }
 
 void    player_rotations(t_game *game, double rotSpeed)
@@ -222,8 +232,8 @@ int handle_keys(int keycode, t_game *game)
 
 void init_values(t_game game)
 {
-    game.player->player_x = 12;
-    game.player->player_y = 5;
+    game.player->playerX = 12;
+    game.player->playerY = 5;
     game.player->dirX = -1;
     game.player->dirY = 0;
     game.player->planeX = 0;

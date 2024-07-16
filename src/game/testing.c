@@ -115,7 +115,7 @@ int calculateAndSaveToMap(t_info *info)
     }
     int x;
 
-        x = 0;
+    x = 0;
     while (x < screenWidth)
     {
         // cameraX 는 for문의 x값이 카메라 평면 상에 있을 때의 x좌표.

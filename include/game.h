@@ -41,10 +41,16 @@
 #define FORWARD 1
 #define BACKWARD -1
 
+
+#define TEXTURE_NORTH 0
+#define TEXTURE_SOUTH 1
+#define TEXTURE_WEST 2
+#define TEXTURE_EAST 3
+
 typedef struct s_player
 {
-	double player_x;
-	double player_y;
+	double	playerX;
+	double	playerY;
 	double	dirX;
 	double	dirY;
 	double	moveSpeed;
@@ -53,6 +59,27 @@ typedef struct s_player
     double	planeY;
 } t_player;
 
+typedef struct s_ray
+{
+	double	camX;
+	double	dirX;
+	double	dirY;
+	int		mapX;
+	int		mapY;
+	int		stepX;
+	int		stepY;
+	double	sideDistX;
+	double	sideDistY;
+	double	deltaDistX;
+	double	deltaDistY;
+	double	wallDist;
+	int		side;
+	int		hit;
+	int		drawStart;
+	int		drawEnd;
+	double	wallX;
+	
+}			t_ray;
 typedef struct s_im
 {
 	void	*img;
@@ -80,8 +107,13 @@ typedef	struct s_game
 	t_map		*map;
 	t_player	*player;
 	t_im		*image;
+	t_ray		*ray;	    
 	
-}	t_game;
+}		t_game;
 
+
+void	init_raycast_variables(t_game *game, int x);
+void	looping_rays(t_game *game);
+void	wall_distance(t_game *game);
 
 #endif

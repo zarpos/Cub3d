@@ -74,7 +74,7 @@ typedef struct s_ray
 	double	deltaDistY;
 	double	wallDist;
 	int		side;
-	int		hit;
+	int		height;
 	int		drawStart;
 	int		drawEnd;
 	double	wallX;

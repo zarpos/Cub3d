@@ -6,7 +6,7 @@
 /*   By: fdiaz-gu <fdiaz-gu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:33:39 by fdiaz-gu          #+#    #+#             */
-/*   Updated: 2024/07/16 18:21:00 by fdiaz-gu         ###   ########.fr       */
+/*   Updated: 2024/08/20 18:50:51 by fdiaz-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	wall_distance(t_game *game)
 	t_ray *ray;
 
 	ray = game->ray;
-	while (ray->hit == 0)
+	while (1)
 	{
 		if (ray->sideDistX < ray->sideDistY)
 		{
@@ -103,11 +103,25 @@ void	wall_distance(t_game *game)
 			ray->sideDistY += ray->deltaDistY;
 			ray->mapY += ray->stepY;
 			ray->side = 1;
-		}		
+		}
+		if (game->map->map[ray->mapY][ray->mapX] > 0)
+			break;
 		if (ray->side == 0)
 			ray->wallDist = ray->sideDistX - ray->deltaDistX;
 		else
 			ray->wallDist = ray->sideDistY - ray->deltaDistY;
 	}
 	
+}
+
+void	wall_height(t_game *game)
+{
+	t_ray	*ray;
+
+	ray = game->ray;
+	ray->height = (int)(SCREEN_Y / ray->wallDist);
+	ray->drawStart =  -ray->height / 2 + SCREEN_Y / 2;
+	if (ray->drawStart < 0)
+		ray->drawStart = 0;
+	int end;
 }

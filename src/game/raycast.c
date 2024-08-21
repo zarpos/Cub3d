@@ -6,7 +6,7 @@
 /*   By: fdiaz-gu <fdiaz-gu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:33:39 by fdiaz-gu          #+#    #+#             */
-/*   Updated: 2024/08/20 18:50:51 by fdiaz-gu         ###   ########.fr       */
+/*   Updated: 2024/08/21 12:39:49 by fdiaz-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,15 @@ void	wall_height(t_game *game)
 
 	ray = game->ray;
 	ray->height = (int)(SCREEN_Y / ray->wallDist);
-	ray->drawStart =  -ray->height / 2 + SCREEN_Y / 2;
+	ray->drawStart =  -(ray->height / 2) + (SCREEN_Y / 2);
 	if (ray->drawStart < 0)
 		ray->drawStart = 0;
-	int end;
+	ray->drawEnd = (ray->height / 2) + (SCREEN_Y / 2);
+	if (ray->drawEnd >= SCREEN_Y)
+		ray->drawEnd = SCREEN_Y - 1;
+	if (ray->side == 0)
+		ray->wallX = game->player->playerX + ray->wallDist * ray->dirX;
+	else
+		ray->wallX = game->player->playerX + ray->wallDist * ray->dirY;
+		
 }

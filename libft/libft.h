@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crtorres <crtorres@student.42.fr>          +#+  +:+       +#+        */
+/*   By: drubio-m <drubio-m@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 18:41:23 by drubio-m          #+#    #+#             */
-/*   Updated: 2023/03/10 20:43:20 by crtorres         ###   ########.fr       */
+/*   Updated: 2024/08/20 14:26:26 by drubio-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif
+
+# define RED "\033[0;31m"
+# define RESET "\033[0m"
 
 typedef struct s_list
 {
@@ -85,4 +88,5 @@ char	*ft_print_line(char *str);
 char	*ft_new_static(char *aux);
 char	*ft_strjoin2(char *s1, char *s2);
 char	*ft_strcpy(char *dst, const char *src);
+void	ft_error(char *msg);
 #endif

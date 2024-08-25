@@ -5,7 +5,7 @@ CFLAGS = -Wall -Werror -Wextra -I ./include -I ./libft/libft.h #-g3 -fsanitize=a
 RM = rm -f
 
 SRC_SRC = main.c
-PRS_SRC =
+PRS_SRC = check_args.c
 GME_SRC =
 
 SRC = $(SRC_SRC) $(PRS_SRC) $(GME_SRC)

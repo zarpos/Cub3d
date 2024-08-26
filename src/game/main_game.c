@@ -18,7 +18,7 @@
 int calculateAndSaveToMap(t_game *info);
 void imageDraw(t_game *info);
 
-int worldMap[mapWidth][mapHeight] =
+int worldMap[24][24] =
     {
         {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 7, 7, 7, 7, 7, 7, 7, 7},
         {4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 7},
@@ -45,6 +45,7 @@ int worldMap[mapWidth][mapHeight] =
         {4, 0, 0, 0, 0, 0, 0, 0, 0, 4, 6, 0, 6, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2},
         {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3}};
 
+
 int main_loop(t_game *game)
 {
     hande_raycasting(game);    
@@ -69,105 +70,106 @@ int hande_raycasting(t_game *game)
     x = 0;
     while (x < SCREEN_X)
     {
-        init_raycast_variables(game, x);
+        game->ray = init_raycast_variables(game, x);
         looping_rays(game);
-        x++;
-    }
-    //TODO: REEeefactoooooooooooooooooooooor
-   /*  int x;
-
-    x = 0;
-    while (x < SCREEN_X)
-    {
-        double cameraX = (2 * x / (double)(SCREEN_X)) - 1;
-        double rayDirectionX = game->player->dirX + game->player->planeX * cameraX;
-        double rayDirectionY = game->player->dirY + game->player->planeY * cameraX;
-        int mapX = (int)(game->player->playerX);
-        int mapY = (int)(game->player->playerY);
-
-        double sideDistX;
-        double sideDistY;
-
-        double deltaDistX = fabs(1 / rayDirectionX);
-        double deltaDistY = fabs(1 / rayDirectionY);
-
-        double perpWallDist;
-        int stepX;
-        int stepY;
-
-        int hit = 0;
-        int side;
-
-        if (rayDirectionX < 0)
-        {
-            stepX = -1;
-            sideDistX = (game->player->playerX - mapX) * deltaDistX;
-        }
-        else
-        {
-            stepX = 1;
-            sideDistX = (mapX + 1.0 - game->player->playerX) * deltaDistX;
-        }
-        if (rayDirectionY < 0)
-        {
-            stepY = -1;
-            sideDistY = (game->player->playerY - mapY) * deltaDistY;
-        }
-        else
-        {
-            stepY = 1;
-            sideDistY = (mapY + 1.0 - game->player->playerY) * deltaDistY;
-        }
-
-        while (hit == 0)
-        {
-            if (sideDistX < sideDistY)
-            {
-                sideDistX += deltaDistX;
-                mapX += stepX;
-                side = 0;
-            }
-            else
-            {
-                sideDistY += deltaDistY;
-                mapY += stepY;
-                side = 1;
-            }
-
-            if (worldMap[mapX][mapY] > 0)
-                hit = 1;
-        }
-        if (side == 0)
-            perpWallDist = (mapX - game->player->playerX + (1 - stepX) / 2) / rayDirectionX;
-        else
-            perpWallDist = (mapY - game->player->playerY + (1 - stepY) / 2) / rayDirectionY;
-
-        int lineHeight = (int)(SCREEN_Y / perpWallDist);
-
-        int drawStart = (-lineHeight / 2) + (SCREEN_Y / 2);
-        if (drawStart < 0)
-            drawStart = 0;
-        int drawEnd = (lineHeight / 2) + (SCREEN_Y / 2);
-        if (drawEnd >= SCREEN_Y)
-            drawEnd = SCREEN_Y - 1;
-
+        wall_distance(game);
+        wall_height(game);
         int color;
-        if (worldMap[mapX][mapY] == 1)
+        if (worldMap[game->ray->mapX][game->ray->mapY] == 1)
             color = 0xFF0000;
-        else if (worldMap[mapX][mapY] == 2)
+        else if (worldMap[game->ray->mapX][game->ray->mapY] == 2)
             color = 0x00FF00;
-        else if (worldMap[mapX][mapY] == 3)
+        else if (worldMap[game->ray->mapX][game->ray->mapY] == 3)
             color = 0x0000FF;
-        else if (worldMap[mapX][mapY] == 4)
+        else if (worldMap[game->ray->mapX][game->ray->mapY] == 4)
             color = 0xFFFFFF;
         else
             color = 0x123145;
 
-        if (side == 1)
+        if (game->ray->side == 1)
             color = color / 2;
-        drawLine(game, x, drawStart, drawEnd, color);
-        x++;
-    } */
+        drawLine(game, x, game->ray->drawStart, game->ray->drawEnd, color);
+        x++;        
+    }
+    //TODO: REEeefactoooooooooooooooooooooor
+//    int x;
+
+//     x = 0;
+//     while (x < SCREEN_X)
+//     {
+//         double cameraX = (2 * x / (double)(SCREEN_X)) - 1;
+//         double rayDirectionX = game->player->dirX + game->player->planeX * cameraX;
+//         double rayDirectionY = game->player->dirY + game->player->planeY * cameraX;
+//         int mapX = (int)(game->player->playerX);
+//         int mapY = (int)(game->player->playerY);
+
+//         double sideDistX;
+//         double sideDistY;
+
+//         double deltaDistX = fabs(1 / rayDirectionX);
+//         double deltaDistY = fabs(1 / rayDirectionY);
+
+//         double perpWallDist;
+//         int stepX;
+//         int stepY;
+
+//         int hit = 0;
+//         int side;
+
+//         if (rayDirectionX < 0)
+//         {
+//             stepX = -1;
+//             sideDistX = (game->player->playerX - mapX) * deltaDistX;
+//         }
+//         else
+//         {
+//             stepX = 1;
+//             sideDistX = (mapX + 1.0 - game->player->playerX) * deltaDistX;
+//         }
+//         if (rayDirectionY < 0)
+//         {
+//             stepY = -1;
+//             sideDistY = (game->player->playerY - mapY) * deltaDistY;
+//         }
+//         else
+//         {
+//             stepY = 1;
+//             sideDistY = (mapY + 1.0 - game->player->playerY) * deltaDistY;
+//         }
+
+//         while (hit == 0)
+//         {
+//             if (sideDistX < sideDistY)
+//             {
+//                 sideDistX += deltaDistX;
+//                 mapX += stepX;
+//                 side = 0;
+//             }
+//             else
+//             {
+//                 sideDistY += deltaDistY;
+//                 mapY += stepY;
+//                 side = 1;
+//             }
+
+//             if (worldMap[mapX][mapY] > 0)
+//                 hit = 1;
+//         }
+//         if (side == 0)
+//             perpWallDist = (mapX - game->player->playerX + (1 - stepX) / 2) / rayDirectionX;
+//         else
+//             perpWallDist = (mapY - game->player->playerY + (1 - stepY) / 2) / rayDirectionY;
+
+//         int lineHeight = (int)(SCREEN_Y / perpWallDist);
+
+//         int drawStart = (-lineHeight / 2) + (SCREEN_Y / 2);
+//         if (drawStart < 0)
+//             drawStart = 0;
+//         int drawEnd = (lineHeight / 2) + (SCREEN_Y / 2);
+//         if (drawEnd >= SCREEN_Y)
+//             drawEnd = SCREEN_Y - 1;
+       
+    // } 
     return (0);
 }
 

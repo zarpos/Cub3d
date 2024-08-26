@@ -74,7 +74,8 @@ typedef struct s_ray
 	double	deltaDistY;
 	double	wallDist;
 	int		side;
-	int		height;
+	int		hit;
+	int		lh;
 	int		drawStart;
 	int		drawEnd;
 	double	wallX;
@@ -91,7 +92,7 @@ typedef struct s_im
 
 typedef struct s_map
 {	
-	char	**map;
+	int		**map;
 	size_t	map_width;
 	size_t	map_height;
 	int     **buf;
@@ -111,9 +112,12 @@ typedef	struct s_game
 	
 }		t_game;
 
-
-void	init_raycast_variables(t_game *game, int x);
+int 	hande_raycasting(t_game *game);
+t_ray	*init_raycast_variables(t_game *game, int x);
 void	looping_rays(t_game *game);
 void	wall_distance(t_game *game);
+void	wall_height(t_game *game);
+
+extern int worldMap[24][24];
 
 #endif

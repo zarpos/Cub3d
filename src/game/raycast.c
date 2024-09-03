@@ -6,7 +6,7 @@
 /*   By: fdiaz-gu <fdiaz-gu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:33:39 by fdiaz-gu          #+#    #+#             */
-/*   Updated: 2024/08/21 15:56:48 by fdiaz-gu         ###   ########.fr       */
+/*   Updated: 2024/09/03 12:29:44 by fdiaz-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,26 @@
 //         {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3}};
 
 
+void process_rays(t_game *game)
+{
+    int x = 0;
+    while (x < SCREEN_X)
+    {
+        game->ray = init_raycast_variables(game, x);
+        looping_rays(game);
+        wall_distance(game);
+        wall_height(game);
+        x++;
+    }
+}
+
 t_ray	*init_raycast_variables(t_game *game, int x)
 {
-	t_ray *ray;
-
-	game->ray = malloc(sizeof(t_ray));
-	if (!game->ray)
+	t_ray *ray = game->ray;
+	ray = malloc(sizeof(t_ray));
+	if (!ray)
 		return (NULL);
-	ray = game->ray;
-	ray->camX = (2 * x / (double)(SCREEN_X)) - 1;
+	ray->camX = 2 * x / (double)(SCREEN_X) - 1;
 	ray->dirX = game->player->dirX + game->player->planeX * ray->camX;
 	ray->dirY = game->player->dirY + game->player->planeY * ray->camX;
 	ray->mapX = (int)(game->player->playerX);
@@ -59,12 +70,9 @@ t_ray	*init_raycast_variables(t_game *game, int x)
 	return (ray);
 }
 
-
 void	looping_rays(t_game *game)
 {
-	t_ray *ray;
-
-	ray = game->ray;
+	t_ray *ray = game->ray;
 	if (ray->dirX < 0)
 	{
 		ray->stepX = -1;
@@ -82,18 +90,14 @@ void	looping_rays(t_game *game)
 	}
 	else
 	{
-		ray->stepY = -1;
+		ray->stepY = 1;
 		ray->sideDistY = (ray->mapY + 1.0 - game->player->playerY) * ray->deltaDistY;
 	}
-	
 }
-
 
 void	wall_distance(t_game *game)
 {
-	t_ray *ray;
-
-	ray = game->ray;
+	t_ray *ray = game->ray;
 	while (ray->hit == 0)
 	{
 		if (ray->sideDistX < ray->sideDistY)
@@ -110,21 +114,18 @@ void	wall_distance(t_game *game)
 		}
 		if (worldMap[ray->mapY][ray->mapX] > 0)
 			ray->hit = 1;
-		if (ray->side == 0)
-			ray->wallDist = (ray->mapX - game->player->playerX + (1 -ray->stepX) / 2) / ray->dirX;
-		else
-			ray->wallDist = (ray->mapY - game->player->playerY + (1 -ray->stepY) / 2) / ray->dirY;
 	}
-	
+	if (ray->side == 0)
+		ray->wallDist = (ray->mapX - game->player->playerX + (1 - ray->stepX) / 2) / ray->dirX;
+	else
+		ray->wallDist = (ray->mapY - game->player->playerY + (1 - ray->stepY) / 2) / ray->dirY;
 }
 
 void	wall_height(t_game *game)
 {
-	t_ray	*ray;
-
-	ray = game->ray;
+	t_ray *ray = game->ray;
 	ray->lh = (int)(SCREEN_Y / ray->wallDist);
-	ray->drawStart =  -(ray->lh / 2) + (SCREEN_Y / 2);
+	ray->drawStart = -(ray->lh / 2) + (SCREEN_Y / 2);
 	if (ray->drawStart < 0)
 		ray->drawStart = 0;
 	ray->drawEnd = (ray->lh / 2) + (SCREEN_Y / 2);
@@ -136,6 +137,7 @@ void	wall_height(t_game *game)
 		ray->wallX = game->player->playerX + ray->wallDist * ray->dirY;
 	ray->wallX = floor(ray->wallX);
 }
+
 
 //  void ft_raycast(t_game *game)
 //  {

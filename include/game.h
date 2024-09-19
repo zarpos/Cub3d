@@ -112,7 +112,7 @@ typedef	struct s_game
 	
 }		t_game;
 
-int 	hande_raycasting(t_game *game);
+int 	handle_raycasting(t_game *game);
 t_ray	*init_raycast_variables(t_game *game, int x);
 void	looping_rays(t_game *game);
 void	wall_distance(t_game *game);

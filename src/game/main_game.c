@@ -50,7 +50,7 @@ int worldMap[24][24] =
 
 int main_loop(t_game *game)
 {
-    hande_raycasting(game);
+    handle_raycasting(game);
     return (1);
 }
 void drawLine(t_game *game, int x, int y1, int y2, int color)
@@ -65,7 +65,7 @@ void drawLine(t_game *game, int x, int y1, int y2, int color)
     }
 }
 
-int hande_raycasting(t_game *game)
+int handle_raycasting(t_game *game)
 {
     int x = 0;
 

@@ -20,7 +20,6 @@
 int get_wall_color(int mapX, int mapY);
 int apply_shading_if_needed(int color, int side);
 
-
 int worldMap[24][24] =
     {
         {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 7, 7, 7, 7, 7, 7, 7, 7},
@@ -50,7 +49,12 @@ int worldMap[24][24] =
 
 int main_loop(t_game *game)
 {
+    if (!pixel_map(game))
+        return (1);
     handle_raycasting(game);
+    draw_pixel_map(game);
+    free_arr((void **)game->pixels, SCREEN_Y);
+
     return (1);
 }
 void drawLine(t_game *game, int x, int y1, int y2, int color)
@@ -75,7 +79,7 @@ int handle_raycasting(t_game *game)
         looping_rays(game);
         wall_distance(game);
         wall_height(game);
-
+        // update_map(game, game->ray, x);
         int color = get_wall_color(game->ray->mapX, game->ray->mapY);
         color = apply_shading_if_needed(color, game->ray->side);
 
@@ -221,12 +225,18 @@ void player_movements(t_game *game, int direction)
     double moveX = direction * game->player->moveSpeed * game->player->dirX;
     double moveY = direction * game->player->moveSpeed * game->player->dirY;
 
-    // TODO: cambiar worldMap por game->map->map
-    if (!worldMap[(int)(game->player->playerX + moveX)]
-                 [(int)(game->player->playerY)])
-        game->player->playerX += moveX;
-    if (!worldMap[(int)game->player->playerX][(int)(game->player->playerY + moveY)])
-        game->player->playerY += moveY;
+    // Verificación de límites del mapa
+    int newPosX = (int)(game->player->playerX + moveX);
+    int newPosY = (int)(game->player->playerY + moveY);
+
+    if (newPosX >= 0 && newPosX < SCREEN_X && newPosY >= 0 && newPosY < SCREEN_Y)
+    {
+        if (!worldMap[newPosX][newPosY])
+        {
+            game->player->playerX += moveX;
+            game->player->playerY += moveY;
+        }
+    }
 }
 
 void player_rotations(t_game *game, double rotSpeed)
@@ -236,8 +246,9 @@ void player_rotations(t_game *game, double rotSpeed)
 
     oldDirX = game->player->dirX;
     oldPlaneX = game->player->planeX;
+
     game->player->dirX = game->player->dirX * cos(rotSpeed) - game->player->dirY * sin(rotSpeed);
-    game->player->dirY = oldDirX * sin(rotSpeed) * game->player->dirY * cos(rotSpeed);
+    game->player->dirY = oldDirX * sin(rotSpeed) + game->player->dirY * cos(rotSpeed); // Corrección aquí
     game->player->planeX = game->player->planeX * cos(rotSpeed) - game->player->planeY * sin(rotSpeed);
     game->player->planeY = oldPlaneX * sin(rotSpeed) + game->player->planeY * cos(rotSpeed);
 }
@@ -274,16 +285,23 @@ int handle_keys(int keycode, t_game *game)
     return (0);
 }
 
-void init_values(t_game game)
+void init_values(t_game *game)
 {
-    game.player->playerX = 12;
-    game.player->playerY = 5;
-    game.player->dirX = -1;
-    game.player->dirY = 0;
-    game.player->planeX = 0;
-    game.player->planeY = 0.66;
-    game.player->moveSpeed = 0.05;
-    game.player->rotSpeed = 0.05;
+    game->player->playerX = 12;
+    game->player->playerY = 5;
+    game->player->dirX = -1;
+    game->player->dirY = 0;
+    game->player->planeX = 0;
+    game->player->planeY = 0.66;
+    game->player->moveSpeed = 0.05;
+    game->player->rotSpeed = 0.05;
+    game->fd = -1;
+    while (++game->fd < 5)
+    {
+        game->texture_buffer[game->fd] = NULL;
+        game->path_texture[game->fd] = NULL;
+    }
+    game->fd = 0;
 }
 
 int main(void)
@@ -291,12 +309,25 @@ int main(void)
     t_game game;
     t_player *player = malloc(sizeof(t_player) * 1);
     game.player = player;
-    init_values(game);
+    t_map *map = malloc(sizeof(t_map) * 1);
+    game.map = map;
+
+    init_values(&game);
+    init_texture_paths(&game);
+    if (!load_textures(&game))
+    {
+        printf("HOLA\n");
+        return (1);
+    }
+    // load_textures(&game);
     game.mlx = mlx_init();
+    if (!game.mlx)
+        return (printf("Error initializing MLX\n"), false);
+
     game.mlx_win = mlx_new_window(game.mlx, SCREEN_X, SCREEN_Y, "CUB</3D");
     mlx_loop_hook(game.mlx, &main_loop, &game);
-    //*Cerrar con x
     mlx_hook(game.mlx_win, DESTROY, 0, &end_program, &game);
     mlx_hook(game.mlx_win, KEY_PRESS, (1L << 0), &handle_keys, &game);
     mlx_loop(game.mlx);
+    return (0);
 }

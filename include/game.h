@@ -15,10 +15,10 @@
 
 #include "cub3d.h"
 
-#define MOSSY "../src/sprites/mossy.png"
-#define PURPLE "../src/sprites/purplestone.png"
-#define BRICK "../src/sprites/redbrick.png"
-#define WOOD "../src/sprites/wood.png"
+#define MOSSY "./src/sprites/mossy.xpm"
+#define PURPLE "./src/sprites/purplestone.xpm"
+#define BRICK "./src/sprites/redbrick.xpm"
+#define WOOD "./src/sprites/wood.xpm"
 #define SCREEN_X 640
 #define SCREEN_Y 480
 #define KEY_PRESS 2
@@ -41,82 +41,101 @@
 #define FORWARD 1
 #define BACKWARD -1
 
-
 #define TEXTURE_NORTH 0
 #define TEXTURE_SOUTH 1
 #define TEXTURE_WEST 2
 #define TEXTURE_EAST 3
 
+#define TEX_SIZE 64
+
+#define FLOOR_PATH "../sprites/mossy.xpm"
+#define WALL_PATH "./sprites/wood.xpm"
+
 typedef struct s_player
 {
-	double	playerX;
-	double	playerY;
-	double	dirX;
-	double	dirY;
-	double	moveSpeed;
-	double	rotSpeed;
-	double	planeX;
-    double	planeY;
+	double playerX;
+	double playerY;
+	double dirX;
+	double dirY;
+	double moveSpeed;
+	double rotSpeed;
+	double planeX;
+	double planeY;
 } t_player;
 
 typedef struct s_ray
 {
-	double	camX;
-	double	dirX;
-	double	dirY;
-	int		mapX;
-	int		mapY;
-	int		stepX;
-	int		stepY;
-	double	sideDistX;
-	double	sideDistY;
-	double	deltaDistX;
-	double	deltaDistY;
-	double	wallDist;
-	int		side;
-	int		hit;
-	int		lh;
-	int		drawStart;
-	int		drawEnd;
-	double	wallX;
-	
-}			t_ray;
-typedef struct s_im
+	double camX;
+	double dirX;
+	double dirY;
+	int mapX;
+	int mapY;
+	int stepX;
+	int stepY;
+	double sideDistX;
+	double sideDistY;
+	double deltaDistX;
+	double deltaDistY;
+	double wallDist;
+	int side;
+	int hit;
+	int height;
+	int lh;
+	int drawStart;
+	int drawEnd;
+	double wallX;
+
+} t_ray;
+typedef struct s_img
 {
-	void	*img;
-	char	*addr;
-	int		endian;
-	int		len;
-	int		bpp;
-}				t_im;
+	void *img;
+	int *addr;
+	char *path;
+	int width;
+	int height;
+	int endian;
+	int len;
+	int bpp;
+} t_img;
 
 typedef struct s_map
-{	
-	int		**map;
-	size_t	map_width;
-	size_t	map_height;
-	int     **buf;
-    int     texture[8][texHeight * texWidth];
-
+{
+	int **map;
+	size_t map_width;
+	size_t map_height;
+	int floor_hex;
+	int ceiling_hex;
+	int **buf;
+	int texture[8][texHeight * texWidth];
 } t_map;
 
-typedef	struct s_game
+typedef struct s_game
 {
-	void 		*mlx;
-	void 		*mlx_win;
-	void		*img;
-	t_map		*map;
-	t_player	*player;
-	t_im		*image;
-	t_ray		*ray;	    
-	
-}		t_game;
+	void *mlx;
+	void *mlx_win;
+	void *img;
+	int *texture_buffer[4];
+	int **pixels;
+	int fd;
+	char *path_texture[4];
+	t_map *map;
+	t_player *player;
+	t_img *image;
+	t_ray *ray;
 
-int 	handle_raycasting(t_game *game);
-t_ray	*init_raycast_variables(t_game *game, int x);
-void	looping_rays(t_game *game);
-void	wall_distance(t_game *game);
-void	wall_height(t_game *game);
+} t_game;
+
+int handle_raycasting(t_game *game);
+t_ray *init_raycast_variables(t_game *game, int x);
+void looping_rays(t_game *game);
+void wall_distance(t_game *game);
+void wall_height(t_game *game);
+void update_map(t_game *game, t_ray *ray, int x);
+void free_arr(void **array, int n);
+bool pixel_map(t_game *game);
+void draw_pixel_map(t_game *game);
+bool load_textures(t_game *game);
+void init_texture_paths(t_game *game);
 
 extern int worldMap[24][24];
 

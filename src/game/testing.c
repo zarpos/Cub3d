@@ -384,6 +384,7 @@
 // */
 // void load_image(t_info *info, int *texture, char *path, t_img *img)
 // {
+//     printf( "NUM %d\n", img->img_height);
 //     printf("Loading image from path: %s\n", path);
 //     img->img = mlx_xpm_file_to_image(info->mlx, path, &img->img_width, &img->img_height);
 //     if (img->img == NULL) {

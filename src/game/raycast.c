@@ -98,7 +98,7 @@ void	looping_rays(t_game *game)
 void	wall_distance(t_game *game)
 {
 	t_ray *ray = game->ray;
-	while (ray->hit == 0)
+	while (1)
 	{
 		if (ray->sideDistX < ray->sideDistY)
 		{
@@ -113,7 +113,7 @@ void	wall_distance(t_game *game)
 			ray->side = 1;
 		}
 		if (worldMap[ray->mapY][ray->mapX] > 0)
-			ray->hit = 1;
+			break ;
 	}
 	if (ray->side == 0)
 		ray->wallDist = (ray->mapX - game->player->playerX + (1 - ray->stepX) / 2) / ray->dirX;
@@ -135,7 +135,7 @@ void	wall_height(t_game *game)
 		ray->wallX = game->player->playerX + ray->wallDist * ray->dirX;
 	else
 		ray->wallX = game->player->playerX + ray->wallDist * ray->dirY;
-	ray->wallX = floor(ray->wallX);
+	ray->wallX -= floor(ray->wallX);
 }
 
 

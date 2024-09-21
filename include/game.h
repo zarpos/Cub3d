@@ -65,6 +65,20 @@ typedef struct s_player
 	double planeY;
 } t_player;
 
+typedef struct s_parser
+{
+	int	rp;
+	int err;
+	char *no;
+	char *so;
+	char *we;
+	char *ea;
+	int floor_col[3];
+	int ceil_col[3];
+
+} t_parser;
+
+
 typedef struct s_ray
 {
 	double camX;
@@ -86,13 +100,13 @@ typedef struct s_ray
 	int drawStart;
 	int drawEnd;
 	double wallX;
-	int	texNum;
+	int texNum;
 
 } t_ray;
 typedef struct s_img
 {
 	void *img;
-	int *addr;
+	int *data;
 	char *path;
 	int width;
 	int height;
@@ -103,11 +117,11 @@ typedef struct s_img
 
 typedef struct s_colors
 {
-	int	red;
-	int	green;
-	int	blue;
+	int red;
+	int green;
+	int blue;
 	int alpha;
-}	t_colors;
+} t_colors;
 
 typedef struct s_map
 {
@@ -115,9 +129,7 @@ typedef struct s_map
 	size_t map_width;
 	size_t map_height;
 	int floor_hex;
-	int ceiling_hex;
-	int **buf;
-	int texture[8][texHeight * texWidth];
+	int ceil_hex;
 	t_colors floor;
 	t_colors sky;
 } t_map;
@@ -127,9 +139,8 @@ typedef struct s_game
 	void *mlx;
 	void *mlx_win;
 	void *img;
-	int *texture_buffer[4];
-	int **pixels;
-    int     buf[SCREEN_Y][SCREEN_X];
+	int **tex_buf;
+	int **texture;
 	int fd;
 	char *path_texture[4];
 	t_map map;
@@ -144,19 +155,15 @@ void init_raycast_variables(t_game *game, t_ray *ray, int x);
 void looping_rays(t_game *game);
 void wall_distance(t_game *game);
 void wall_height(t_game *game);
-void update_map(t_game *game, t_ray *ray, int x);
-void free_arr(void **array, int n);
-void draw_pixel_map(t_game *game);
-bool load_textures(t_game *game);
-void init_texture_paths(t_game *game);
 int handle_keys(int keycode, t_game *game);
 int end_program(void *l);
 int to_rgba(int r, int g, int b, int alpha);
 void print_pixel(t_img img, int x, int y, int color);
 void pixel_map(t_game *game, t_colors sky, t_colors floor);
-void apply_texturing(t_game *game, int x);
+void    load_imgs(t_game *game, t_parser *parser);
+void initialize_tex_buff(t_game *game);
 
 
-	extern int worldMap[24][24];
+extern int worldMap[24][24];
 
 #endif

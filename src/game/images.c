@@ -12,102 +12,98 @@
 
 #include "../../include/cub3d.h"
 
-void init_texture_paths(t_game *game)
+void initialize_tex_buff(t_game *game)
 {
-    game->path_texture[0] = MOSSY;
-    game->path_texture[1] = PURPLE;
-    game->path_texture[2] = BRICK;
-    game->path_texture[3] = WOOD;
+    int i;
 
-    // Puedes agregar validaciones para asegurar que las rutas no sean NULL
-    for (int i = 0; i < 4; i++)
+    i = 0;
+    game->tex_buf = (int**) malloc(sizeof(int *) * SCREEN_Y + 1);
+    if(!game->tex_buf)
+        return ;
+    game->tex_buf[SCREEN_Y] = NULL;
+    while (i < SCREEN_Y)
     {
-        if (!game->path_texture[i])
-        {
-            printf("Error: Texture path at index %d is NULL.\n", i);
-            exit(1); // Sale del programa en caso de error
-        }
+        game->tex_buf[i] = (int *)malloc(SCREEN_X * sizeof(int));
+        if (!game->tex_buf[i])
+            return ;
+        i++;
     }
 }
 
-
-bool ft_create_texture_buffer_from_img(t_game *game,
-                                       t_img *img, int dir)
+void    draw_foor_ceiling(t_game *game, t_parser *parser)
 {
-    int *pixels;
+    game->map.ceil_hex = ((parser->ceil_col[0] & 0xFF) << 16) | (parser->ceil_col[1] & 0xFF) << 8 | (parser->ceil_col[2] & 0xFF);
+    game->map.floor_hex = ((parser->floor_col[0] & 0xFF) << 16) | (parser->floor_col[1] & 0xFF) << 8 | (parser->floor_col[2] & 0xFF);
+}
+
+void    load_xpm(t_game *game, int *tex, char *path, t_img *img)
+{
+    int x;
+    int y;
+
+    y = 0;
+    img->img = mlx_xpm_file_to_image(game->mlx, path, &img->width, &img->height);
+    if (!img->img)
+        return ;
+    img->data = (int *)mlx_get_data_addr(img->img, &img->bpp, &img->len, &img->endian);
+    if (!img->data || img->width != texWidth || img->height != texHeight)
+        return ;
+    while (y < img->height)
+    {
+        x = 0;
+        while (x < img->width)
+        {
+            tex[img->width * y + x] = img->data[img->width * y + x];
+            x++;            
+        }
+        y++;
+    }
+    mlx_destroy_image(game->mlx, img->img);
+}
+
+void    load_images(t_game *game, t_parser *data)
+{
+    t_img   img;
+
+    load_xpm(game, game->texture[0], data->so, &img);
+    load_xpm(game, game->texture[1], data->no, &img);
+    load_xpm(game, game->texture[2], data->we, &img);
+    load_xpm(game, game->texture[3], data->ea, &img);
+
+}
+
+void    handle_wall_imgs(t_game *game)
+{
     int i;
     int j;
 
-    pixels = malloc(sizeof(int) *( img->width * img->height));
-    if (!pixels)
-        return (false);
-    i = -1;
-    while (++i < img->height)
-    {
-        j = -1;
-        while (++j < img->width)
-            pixels[i * img->width + j] = img->addr[i * img->width + j];
-    }
-    game->texture_buffer[dir] = pixels;
-    return (true);
-}
-bool load_textures(t_game *game)
-{
-    t_img tmp;
-    tmp = game->image;
-    int i;
-
-    init_texture_paths(game);
+    i = 0;
+    game->texture = malloc(5 * sizeof(int *));
+    if (!game->texture)
+        return ;
     while (i < 4)
     {
-        tmp.img = mlx_xpm_file_to_image(game->mlx, game->path_texture[i], &tmp.width, &tmp.height);
-        if (!tmp.img)
-            return (printf("Error tmp"), false);
-        tmp.addr = (int *)mlx_get_data_addr(tmp.img, &tmp.bpp, &tmp.len, &tmp.endian);
+        game->texture[i] = malloc(sizeof(int) * texWidth * texHeight + 1);
+        if (!game->texture[i++])
+            return ;
+    }
+    i = 0;
+    while (j < 4)
+    {
+        j = 0;
+        while (j < texHeight * texWidth)
+        {
+            game->texture[i][j] = 0;
+            j++;
+        }
         i++;
     }
-    // t_img tmp;
-    // int i;
-
-    // i = -1;
-    // while (++i < 4)
-    // {
-    //     if (!game->path_texture[i]) {
-    //         printf("Texture path at index %d is NULL.\n", i);
-    //         return false;
-    //     }
-    //     printf("Loading texture from: %s\n", game->path_texture[i]);
-    //     tmp.img = mlx_xpm_file_to_image(game->mlx,
-    //                                     game->path_texture[i], &tmp.width, &tmp.height);
-    //     if (!tmp.img) {
-    //         printf("Failed to load texture from %s\n", game->path_texture[i]);
-    //         return false;
-    //     }
-    //     printf("Loaded texture with dimensions: %d x %d\n", tmp.width, tmp.height);
-    //     tmp.addr = (int *)mlx_get_data_addr(tmp.img,
-    //                                         &tmp.bpp, &tmp.len, &tmp.endian);
-    //     if (!tmp.addr) {
-    //         printf("Failed to get data address for texture %s\n", game->path_texture[i]);
-    //         mlx_destroy_image(game->mlx, tmp.img);
-    //         return false;
-    //     }
-    //     if (!ft_create_texture_buffer_from_img(game, &tmp, i)) {
-    //         printf("Failed to create texture buffer for %s\n", game->path_texture[i]);
-    //         mlx_destroy_image(game->mlx, tmp.img);
-    //         return false;
-    //     }
-    //     mlx_destroy_image(game->mlx, tmp.img);
-    // }
-    return (true);
 }
 
+void    load_imgs(t_game *game, t_parser *parser)
+{
+    handle_wall_imgs(game);
+    load_images(game, parser);
+    draw_foor_ceiling(game, parser);
 
-// int get_texture_color(t_game *game, int dir, int x, int y)
-// {
-//     char *texture_data;
-//     int color;
-
-//     texture_data = game->texture_data[dir];
-//     color = *(int *)(texture_data + (y * game->size_line[dir] + x * (game->bits_per_pixel[dir] / 8)));
-//     return color;
-// }
+}

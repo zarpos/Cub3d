@@ -14,7 +14,7 @@
 
 void print_pixel(t_img img, int x, int y, int color)
 {
-    if (x >= 0 && y >= 0 && x < img.width && y < img.height && img.addr != NULL)
+    if (x >= 0 && y >= 0 && x < img.width && y < img.height && img.data != NULL)
     {
         int bytes_per_pixel = img.bpp >> 3;
         int index = (y * img.width + x) * bytes_per_pixel;
@@ -25,7 +25,7 @@ void print_pixel(t_img img, int x, int y, int color)
         
         // Chequeo de límites modificado
         if (index >= 0 && index < (img.width * img.height * bytes_per_pixel)) 
-            *(unsigned int *)(img.addr + index) = color;
+            *(unsigned int *)(img.data + index) = color;
     }
 }
 

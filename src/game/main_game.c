@@ -138,43 +138,22 @@ void init_values(t_game *game)
     game->player.planeY = 0.66;
     game->player.moveSpeed = 0.05;
     game->player.rotSpeed = 0.05;
-    game->fd = -1;
-    while (++game->fd < 5)
-    {
-        game->texture_buffer[game->fd] = NULL;
-        game->path_texture[game->fd] = NULL;
-    }
-    game->fd = 0;
 }
 
 int main(void)
 {
     t_game *game;
+    t_parser *parser;
     game = malloc(sizeof(t_game));
     if (!game)
         return (1);
     init_values(game);
+    load_imgs(game, parser);
     game->mlx = mlx_init();
     game->mlx_win = mlx_new_window(game->mlx, SCREEN_X, SCREEN_Y, NAME);
     game->image.img = mlx_new_image(game->mlx, SCREEN_X, SCREEN_Y);
-    game->image.addr = (int *)mlx_get_data_addr(game->image.img, &game->image.bpp,
-                                                &game->image.len, &game->image.endian);
-    if (!load_textures(game))
-        return (1);
-    // t_game game;
-    // t_player *player = malloc(sizeof(t_player) * 1);
-    // game->player = player;
-    // t_map *map = malloc(sizeof(t_map) * 1);
-    // game->map = map;
-
-    // init_texture_paths(&game);
-    // if (!load_textures(&game))
-    // {
-    //     printf("HOLA\n");
-    //     return (1);
-    // }
-    // load_textures(&game);
-    // main_loop(game);
+    game->image.data = (int *)mlx_get_data_addr(game->image.img, &game->image.bpp,
+                                                &game->image.len, &game->image.endian);    
     mlx_loop_hook(game->mlx, &main_loop, game);
     mlx_hook(game->mlx_win, DESTROY, 0, &end_program, game);
     mlx_hook(game->mlx_win, KEY_PRESS, (1L << 0), &handle_keys, game);

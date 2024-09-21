@@ -51,6 +51,8 @@
 #define FLOOR_PATH "../sprites/mossy.xpm"
 #define WALL_PATH "./sprites/wood.xpm"
 
+#define NAME "CUB</3D"
+
 typedef struct s_player
 {
 	double playerX;
@@ -84,6 +86,7 @@ typedef struct s_ray
 	int drawStart;
 	int drawEnd;
 	double wallX;
+	int	texNum;
 
 } t_ray;
 typedef struct s_img
@@ -98,6 +101,14 @@ typedef struct s_img
 	int bpp;
 } t_img;
 
+typedef struct s_colors
+{
+	int	red;
+	int	green;
+	int	blue;
+	int alpha;
+}	t_colors;
+
 typedef struct s_map
 {
 	int **map;
@@ -107,6 +118,8 @@ typedef struct s_map
 	int ceiling_hex;
 	int **buf;
 	int texture[8][texHeight * texWidth];
+	t_colors floor;
+	t_colors sky;
 } t_map;
 
 typedef struct s_game
@@ -116,27 +129,34 @@ typedef struct s_game
 	void *img;
 	int *texture_buffer[4];
 	int **pixels;
+    int     buf[SCREEN_Y][SCREEN_X];
 	int fd;
 	char *path_texture[4];
-	t_map *map;
-	t_player *player;
-	t_img *image;
-	t_ray *ray;
+	t_map map;
+	t_player player;
+	t_img image;
+	t_ray ray;
 
 } t_game;
 
 int handle_raycasting(t_game *game);
-t_ray *init_raycast_variables(t_game *game, int x);
+void init_raycast_variables(t_game *game, t_ray *ray, int x);
 void looping_rays(t_game *game);
 void wall_distance(t_game *game);
 void wall_height(t_game *game);
 void update_map(t_game *game, t_ray *ray, int x);
 void free_arr(void **array, int n);
-bool pixel_map(t_game *game);
 void draw_pixel_map(t_game *game);
 bool load_textures(t_game *game);
 void init_texture_paths(t_game *game);
+int handle_keys(int keycode, t_game *game);
+int end_program(void *l);
+int to_rgba(int r, int g, int b, int alpha);
+void print_pixel(t_img img, int x, int y, int color);
+void pixel_map(t_game *game, t_colors sky, t_colors floor);
+void apply_texturing(t_game *game, int x);
 
-extern int worldMap[24][24];
+
+	extern int worldMap[24][24];
 
 #endif

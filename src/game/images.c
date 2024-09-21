@@ -54,42 +54,51 @@ bool ft_create_texture_buffer_from_img(t_game *game,
 bool load_textures(t_game *game)
 {
     t_img tmp;
+    tmp = game->image;
     int i;
 
-    i = -1;
-    while (++i < 4)
+    init_texture_paths(game);
+    while (i < 4)
     {
-        if (!game->path_texture[i]) {
-            printf("Texture path at index %d is NULL.\n", i);
-            return false;
-        }
-        printf("Loading texture from: %s\n", game->path_texture[i]);
-        tmp.img = mlx_xpm_file_to_image(game->mlx,
-                                        game->path_texture[i], &tmp.width, &tmp.height);
-        if (!tmp.img) {
-            printf("Failed to load texture from %s\n", game->path_texture[i]);
-            return false;
-        }
-
-        printf("Loaded texture with dimensions: %d x %d\n", tmp.width, tmp.height);
-
-        tmp.addr = (int *)mlx_get_data_addr(tmp.img,
-                                            &tmp.bpp, &tmp.len, &tmp.endian);
-        if (!tmp.addr) {
-            printf("Failed to get data address for texture %s\n", game->path_texture[i]);
-            mlx_destroy_image(game->mlx, tmp.img);
-            return false;
-        }
-
-        if (!ft_create_texture_buffer_from_img(game, &tmp, i)) {
-            printf("Failed to create texture buffer for %s\n", game->path_texture[i]);
-            mlx_destroy_image(game->mlx, tmp.img);
-            return false;
-        }
-
-        mlx_destroy_image(game->mlx, tmp.img);
+        tmp.img = mlx_xpm_file_to_image(game->mlx, game->path_texture[i], &tmp.width, &tmp.height);
+        if (!tmp.img)
+            return (printf("Error tmp"), false);
+        tmp.addr = (int *)mlx_get_data_addr(tmp.img, &tmp.bpp, &tmp.len, &tmp.endian);
+        i++;
     }
-    return true;
+    // t_img tmp;
+    // int i;
+
+    // i = -1;
+    // while (++i < 4)
+    // {
+    //     if (!game->path_texture[i]) {
+    //         printf("Texture path at index %d is NULL.\n", i);
+    //         return false;
+    //     }
+    //     printf("Loading texture from: %s\n", game->path_texture[i]);
+    //     tmp.img = mlx_xpm_file_to_image(game->mlx,
+    //                                     game->path_texture[i], &tmp.width, &tmp.height);
+    //     if (!tmp.img) {
+    //         printf("Failed to load texture from %s\n", game->path_texture[i]);
+    //         return false;
+    //     }
+    //     printf("Loaded texture with dimensions: %d x %d\n", tmp.width, tmp.height);
+    //     tmp.addr = (int *)mlx_get_data_addr(tmp.img,
+    //                                         &tmp.bpp, &tmp.len, &tmp.endian);
+    //     if (!tmp.addr) {
+    //         printf("Failed to get data address for texture %s\n", game->path_texture[i]);
+    //         mlx_destroy_image(game->mlx, tmp.img);
+    //         return false;
+    //     }
+    //     if (!ft_create_texture_buffer_from_img(game, &tmp, i)) {
+    //         printf("Failed to create texture buffer for %s\n", game->path_texture[i]);
+    //         mlx_destroy_image(game->mlx, tmp.img);
+    //         return false;
+    //     }
+    //     mlx_destroy_image(game->mlx, tmp.img);
+    // }
+    return (true);
 }
 
 

@@ -6,7 +6,7 @@ MAKEFLAGS += --no-print-directory
 RM = rm -f
 
 SRC_SRC = main.c
-PRS_SRC = check_args.c
+PRS_SRC = check_args.c parser.c char_validation.c
 GME_SRC =
 
 SRC = $(SRC_SRC) $(PRS_SRC) $(GME_SRC)
@@ -46,7 +46,7 @@ $(OBJ_DIR)%.o: $(GM_DIR)%.c
 
 # basic library compiled
 $(NAME): $(OBJ) $(LIBFT)
-	@$(CC) $(CFLAGS) $(DEBUG) $(OBJ) $(LIBFT) -lm -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -lm -o $(NAME)
 	@echo "$(GREEN)#### cub3d ####$(COLOR_OFF)"
 	@echo "    -Has been compiled ✅"
 

@@ -100,7 +100,10 @@ typedef struct s_ray
 	int drawStart;
 	int drawEnd;
 	double wallX;
-	int texNum;
+	int texX;
+	double step;
+	double tex_pos;
+	int tex_n;
 
 } t_ray;
 typedef struct s_img
@@ -159,7 +162,7 @@ int handle_keys(int keycode, t_game *game);
 int end_program(void *l);
 int to_rgba(int r, int g, int b, int alpha);
 void print_pixel(t_img img, int x, int y, int color);
-void pixel_map(t_game *game, t_colors sky, t_colors floor);
+void pixel_map(t_game *game);
 void    load_imgs(t_game *game, t_parser *parser);
 void initialize_tex_buff(t_game *game);
 

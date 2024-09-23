@@ -39,19 +39,26 @@ int worldMap[24][24] =
         {4, 0, 0, 0, 0, 0, 0, 0, 0, 4, 6, 0, 6, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2},
         {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3}};
 
+void	render_walls(t_game *game, t_ray *ray, int x, int y)
+{
+	int color;
+	int aux_tex;
 
-// void process_rays(t_game *game)
-// {
-//     int x = 0;
-//     while (x < SCREEN_X)
-//     {
-//         game->ray = init_raycast_variables(game, x);
-//         looping_rays(game);
-//         wall_distance(game);
-//         wall_height(game);
-//         x++;
-//     }
-// }
+	text = (int) ray->tex_pos & (texHeight - 1);
+	ray->tex_pos += ray->step;
+	ray->tex_n = 0;
+	if (ray->side == 0 && ray->dirX > 0)
+		ray->tex_n = 3;
+	else if (ray->side == 0 && ray->dirX < 0)
+		ray->tex_n = 2;
+	else if (ray->side == 1 && ray->dirX > 0)
+		ray->tex_n = 1;
+	color = game->texture[ray->tex_n][texHeight * aux_tex + ray->texX];
+	if (ray->side == 1)
+		color = (color >> 1) & 8355711;
+	game->tex_buf[y][SCREEN_X - x -1] = color;
+
+}
 
 void init_raycast_variables(t_game *game, t_ray *ray, int x)
 {
@@ -131,6 +138,13 @@ void	wall_height(t_game *game)
 	else
 		ray->wallX = game->player.playerX + ray->wallDist * ray->dirY;
 	ray->wallX -= floor(ray->wallX);
+	ray->texX = (int)(ray->wallX * (double) texWidth);
+	if (ray->side == 0 && ray->dirX > 0)
+		ray->texX = texWidth - ray->texX -1;
+	if (ray->side == 1 && ray->dirY < 0)
+		ray->texX = texWidth - ray->texX - 1;
+	ray->step = 1.0 * texHeight / ray->lh;
+	ray->tex_pos = (ray->drawStart - SCREEN_Y / 2 + ray->lh / 2) * ray->step;
 }
 
 

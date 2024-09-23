@@ -50,7 +50,7 @@ int apply_shading_if_needed(int color, int side);
 
 int main_loop(t_game *game)
 {
-    pixel_map(game, game->map.sky, game->map.floor);
+    pixel_map(game);
     handle_raycasting(game);
     // mlx_put_image_to_window(game->mlx, game->mlx_win, game->image.img, 0, 0);
     // draw_pixel_map(game);
@@ -72,15 +72,23 @@ void drawLine(t_game *game, int x, int y1, int y2, int color)
 
 int handle_raycasting(t_game *game)
 {
-    int x = 0;
-
+    int x;
+    int y;
+    
+    x = 0;
+    y = 0;
     while (x < SCREEN_X)
     {
         init_raycast_variables(game, &game->ray, x);
         looping_rays(game);
         wall_distance(game);
         wall_height(game);
-        // update_map(game, &game->ray, x);
+        y = game->ray.drawStart;
+        while (y < game->ray.drawEnd)
+        {
+            render_walls(game, game->ray, x, y);
+            y++;
+        }
         int color = get_wall_color(game->ray.mapX, game->ray.mapY);
         color = apply_shading_if_needed(color, game->ray.side);
 

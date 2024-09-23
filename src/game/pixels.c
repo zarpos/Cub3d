@@ -30,9 +30,6 @@ void print_pixel(t_img img, int x, int y, int color)
 }
 
 
-
-
-
 int to_rgba(int r, int g, int b, int alpha)
 {
 	if (alpha > 255 || r > 255 || g > 255 || b > 255)
@@ -40,24 +37,27 @@ int to_rgba(int r, int g, int b, int alpha)
 	return (alpha << 24 | r << 16 | g << 8 | b);
 }
 
-void pixel_map(t_game *game, t_colors sky, t_colors floor)
+void pixel_map(t_game *game)
 {
-    int y = 0;
-    while (y < SCREEN_Y)  // Asegúrate de que no excedas SCREEN_Y
+    int y;
+    int x;
+    int color;
+    
+    y = 0;
+    while (y < SCREEN_Y)
     {
-        int x = 0;
-        while (x < SCREEN_X)  // Asegúrate de que no excedas SCREEN_X
+        x = 0;
+        while (x < SCREEN_X)
         {
-            if (y < SCREEN_Y / 2)
-                print_pixel(game->image, x, y, to_rgba(sky.red, sky.green, sky.blue, 0));
-            else
-                print_pixel(game->image, x, y, to_rgba(floor.red, floor.green, floor.blue, 0));
-            x++;
+            color = game->map.floor_hex;
+            game->tex_buf[y][x] = color;
+            color = game->map.ceil_hex;
+            game->tex_buf[SCREEN_Y - y - 1][x] = color;
+           x++;
         }
         y++;
     }
 }
-
 
 // int get_img_direction(t_ray *ray)
 // {

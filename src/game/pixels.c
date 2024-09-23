@@ -12,30 +12,49 @@
 
 #include "../../include/cub3d.h"
 
-void print_pixel(t_img img, int x, int y, int color)
+void    draw_img(t_game *game)
 {
-    if (x >= 0 && y >= 0 && x < img.width && y < img.height && img.data != NULL)
+    int x;
+    int y;
+
+    y = 0;
+    while (y < SCREEN_Y)
     {
-        int bytes_per_pixel = img.bpp >> 3;
-        int index = (y * img.width + x) * bytes_per_pixel;
-
-        // Depuración: imprime valores clave
-        // printf("x: %d, y: %d, index: %d, color: %d, width: %d, height: %d, bpp: %d\n", 
-        //        x, y, index, color, img.width, img.height, img.bpp);
-        
-        // Chequeo de límites modificado
-        if (index >= 0 && index < (img.width * img.height * bytes_per_pixel)) 
-            *(unsigned int *)(img.data + index) = color;
+        x = 0;
+        while (x < SCREEN_X)
+        {
+            game->image.data[(y * SCREEN_X) + x] = game->tex_buf[y][x];
+            x++
+        }
+        y++;
     }
+    
 }
 
+// void print_pixel(t_img img, int x, int y, int color)
+// {
+//     if (x >= 0 && y >= 0 && x < img.width && y < img.height && img.data != NULL)
+//     {
+//         int bytes_per_pixel = img.bpp >> 3;
+//         int index = (y * img.width + x) * bytes_per_pixel;
 
-int to_rgba(int r, int g, int b, int alpha)
-{
-	if (alpha > 255 || r > 255 || g > 255 || b > 255)
-		return (0);
-	return (alpha << 24 | r << 16 | g << 8 | b);
-}
+//         // Depuración: imprime valores clave
+//         // printf("x: %d, y: %d, index: %d, color: %d, width: %d, height: %d, bpp: %d\n", 
+//         //        x, y, index, color, img.width, img.height, img.bpp);
+        
+//         // Chequeo de límites modificado
+//         if (index >= 0 && index < (img.width * img.height * bytes_per_pixel)) 
+//             *(unsigned int *)(img.data + index) = color;
+//     }
+// }
+
+
+// int to_rgba(int r, int g, int b, int alpha)
+// {
+// 	if (alpha > 255 || r > 255 || g > 255 || b > 255)
+// 		return (0);
+// 	return (alpha << 24 | r << 16 | g << 8 | b);
+// }
 
 void pixel_map(t_game *game)
 {

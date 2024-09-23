@@ -160,10 +160,11 @@ void wall_distance(t_game *game);
 void wall_height(t_game *game);
 int handle_keys(int keycode, t_game *game);
 int end_program(void *l);
-int to_rgba(int r, int g, int b, int alpha);
-void print_pixel(t_img img, int x, int y, int color);
+// int to_rgba(int r, int g, int b, int alpha);
+// void print_pixel(t_img img, int x, int y, int color);
 void pixel_map(t_game *game);
 void    load_imgs(t_game *game, t_parser *parser);
+void    draw_img(t_game *game):
 void initialize_tex_buff(t_game *game);
 
 

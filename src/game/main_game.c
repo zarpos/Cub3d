@@ -52,6 +52,8 @@ int main_loop(t_game *game)
 {
     pixel_map(game);
     handle_raycasting(game);
+    draw_img(game);
+    mlx_do_sync(game->mlx);
     // mlx_put_image_to_window(game->mlx, game->mlx_win, game->image.img, 0, 0);
     // draw_pixel_map(game);
     // free_arr((void **)game->pixels, SCREEN_Y);
@@ -89,10 +91,10 @@ int handle_raycasting(t_game *game)
             render_walls(game, game->ray, x, y);
             y++;
         }
-        int color = get_wall_color(game->ray.mapX, game->ray.mapY);
-        color = apply_shading_if_needed(color, game->ray.side);
+        // int color = get_wall_color(game->ray.mapX, game->ray.mapY);
+        // color = apply_shading_if_needed(color, game->ray.side);
 
-        drawLine(game, x, game->ray.drawStart, game->ray.drawEnd, color);
+        // drawLine(game, x, game->ray.drawStart, game->ray.drawEnd, color);
         x++;
     }
     return (0);

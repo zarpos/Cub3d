@@ -6,11 +6,10 @@
 /*   By: drubio-m <drubio-m@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 22:00:45 by drubio-m          #+#    #+#             */
-/*   Updated: 2024/09/23 19:25:43 by drubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:39:09 by drubio-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//TODO: Cambiar nombre de funciones
 //TODO: Refactorizar
 
 #include "cub3d.h"
@@ -94,7 +93,7 @@ static void	check_walls(char **map_cpy)
 			{
 				if (map_cpy[i + 1][j] == ' ' || map_cpy[i - 1][j] == ' ' ||
 					map_cpy[i][j + 1] == ' ' || map_cpy[i][j - 1] == ' ')
-					ft_error("Map must not be closed");
+					ft_error("Map must be closed");
 			}
 		}
 	}

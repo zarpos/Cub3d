@@ -6,7 +6,7 @@
 /*   By: drubio-m <drubio-m@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 13:55:51 by drubio-m          #+#    #+#             */
-/*   Updated: 2024/09/21 21:37:25 by drubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:41:58 by drubio-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,6 @@ void print_map(t_map *map)
 
 /* int main(int argc, char **argv)
 {
-	t_map map;
-
-	check_args(argc, argv);
-	convert_map(argv[1], &map);
-	print_map(&map);
-	return (0);
-} */
-
-int main(int argc, char **argv)
-{
 	char **file_content;
 	//int i = 0;
 
@@ -50,12 +40,23 @@ int main(int argc, char **argv)
 	file_content = check_args(argc, argv);
 
 	// Imprime el contenido del archivo procesado.
-/* 	for (i = 0; file_content[i] != NULL; i++)
+	for (i = 0; file_content[i] != NULL; i++)
 	{
 		printf("%s\n", file_content[i]);
 		free(file_content[i]); // Libera la memoria de cada línea.
-	} */
+	}
 	free(file_content); // Libera el arreglo de punteros.
 
 	return 0;
+} */
+
+int main(int argc, char **argv)
+{
+	t_game	*game;
+	
+	game = ft_calloc(1, sizeof(t_game));
+	if (!game)
+		ft_error("Game Memory allocation error");
+	
+	return (0);
 }

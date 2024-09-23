@@ -6,7 +6,7 @@
 /*   By: drubio-m <drubio-m@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 13:52:12 by drubio-m          #+#    #+#             */
-/*   Updated: 2024/09/23 19:27:14 by drubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:28:26 by drubio-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ typedef struct s_map
 
 
 // FILE VERIFYING
-
 int		open_validated_file(char **argv);
 char	**process_file(int fd);
 void	verify_blank_line(char *line);

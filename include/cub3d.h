@@ -6,7 +6,7 @@
 /*   By: drubio-m <drubio-m@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 13:52:16 by drubio-m          #+#    #+#             */
-/*   Updated: 2024/09/21 22:37:20 by drubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/22 21:34:32 by drubio-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define CUB3D_H
 
 # define WALL_SIZE 64
+
+
 
 // System libraries
 # include <stdio.h>             /* Para printf */

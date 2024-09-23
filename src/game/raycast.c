@@ -12,7 +12,7 @@
 
 #include "../../include/cub3d.h"
 
-int worldMap[24][24] =
+int	worldMap[24][24] =
     {
         {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 7, 7, 7, 7, 7, 7, 7, 7},
         {4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 7},
@@ -41,10 +41,10 @@ int worldMap[24][24] =
 
 void	render_walls(t_game *game, t_ray *ray, int x, int y)
 {
-	int color;
-	int aux_tex;
+	int	color;
+	int	aux_tex;
 
-	text = (int) ray->tex_pos & (texHeight - 1);
+	aux_tex = (int) ray->tex_pos & (texHeight - 1);
 	ray->tex_pos += ray->step;
 	ray->tex_n = 0;
 	if (ray->side == 0 && ray->dirX > 0)
@@ -57,24 +57,21 @@ void	render_walls(t_game *game, t_ray *ray, int x, int y)
 	if (ray->side == 1)
 		color = (color >> 1) & 8355711;
 	game->tex_buf[y][SCREEN_X - x -1] = color;
-
 }
 
-void init_raycast_variables(t_game *game, t_ray *ray, int x)
+void	init_raycast_variables(t_game *game, t_ray *ray, int x)
 {
-    ray->camX = 2 * x / (double)(SCREEN_X) - 1;
-    ray->dirX = game->player.dirX + game->player.planeX * ray->camX;
-    ray->dirY = game->player.dirY + game->player.planeY * ray->camX;
-    ray->mapX = (int)(game->player.playerX);
-    ray->mapY = (int)(game->player.playerY);
-    ray->deltaDistX = fabs(1 / ray->dirX);
-    ray->deltaDistY = fabs(1 / ray->dirY);
+	ray->camX = 2 * x / (double)(SCREEN_X) - 1;
+	ray->dirX = game->player.dirX + game->player.planeX * ray->camX;
+	ray->dirY = game->player.dirY + game->player.planeY * ray->camX;
+	ray->mapX = (int)(game->player.playerX);
+	ray->mapY = (int)(game->player.playerY);
+	ray->deltaDistX = fabs(1 / ray->dirX);
+	ray->deltaDistY = fabs(1 / ray->dirY);
 }
 
-
-void	looping_rays(t_game *game)
+void	looping_rays(t_game *game, t_ray *ray)
 {
-	t_ray *ray = &game->ray;
 	if (ray->dirX < 0)
 	{
 		ray->stepX = -1;
@@ -83,23 +80,25 @@ void	looping_rays(t_game *game)
 	else
 	{
 		ray->stepX = 1;
-		ray->sideDistX = (ray->mapX + 1.0 - game->player.playerX) * ray->deltaDistX;
+		ray->sideDistX = (ray->mapX + 1.0 - game->player.playerX) * \
+			ray->deltaDistX;
 	}
 	if (ray->dirY < 0)
 	{
 		ray->stepY = -1;
-		ray->sideDistY = (game->player.playerY - ray->mapY) * ray->deltaDistY;
+		ray->sideDistY = (game->player.playerY - ray->mapY) * \
+			ray->deltaDistY;
 	}
 	else
 	{
 		ray->stepY = 1;
-		ray->sideDistY = (ray->mapY + 1.0 - game->player.playerY) * ray->deltaDistY;
+		ray->sideDistY = (ray->mapY + 1.0 - game->player.playerY) * \
+			ray->deltaDistY;
 	}
 }
 
-void	wall_distance(t_game *game)
+void	wall_distance(t_game *game, t_ray *ray)
 {
-	t_ray *ray = &game->ray;
 	while (1)
 	{
 		if (ray->sideDistX < ray->sideDistY)
@@ -118,14 +117,15 @@ void	wall_distance(t_game *game)
 			break ;
 	}
 	if (ray->side == 0)
-		ray->wallDist = (ray->mapX - game->player.playerX + (1 - ray->stepX) / 2) / ray->dirX;
+		ray->wallDist = (ray->mapX - game->player.playerX + \
+			(1 - ray->stepX) / 2) / ray->dirX;
 	else
-		ray->wallDist = (ray->mapY - game->player.playerY + (1 - ray->stepY) / 2) / ray->dirY;
+		ray->wallDist = (ray->mapY - game->player.playerY + \
+			(1 - ray->stepY) / 2) / ray->dirY;
 }
 
-void	wall_height(t_game *game)
+void	wall_height(t_game *game, t_ray *ray)
 {
-	t_ray *ray = &game->ray;
 	ray->lh = (int)(SCREEN_Y / ray->wallDist);
 	ray->drawStart = -(ray->lh / 2) + (SCREEN_Y / 2);
 	if (ray->drawStart < 0)
@@ -146,17 +146,3 @@ void	wall_height(t_game *game)
 	ray->step = 1.0 * texHeight / ray->lh;
 	ray->tex_pos = (ray->drawStart - SCREEN_Y / 2 + ray->lh / 2) * ray->step;
 }
-
-
-//  void ft_raycast(t_game *game)
-//  {
-// 	int	x;
-
-// 	x = 0;
-// 	while (x < SCREEN_X)
-// 	{
-// 		init_raycast_variables(game)
-// 	}
-	
-
-//  }

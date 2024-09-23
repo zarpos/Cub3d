@@ -12,98 +12,82 @@
 
 #include "../../include/cub3d.h"
 
-void initialize_tex_buff(t_game *game)
+void	draw_foor_ceiling(t_game *game, t_parser *parser)
 {
-    int i;
-
-    i = 0;
-    game->tex_buf = (int**) malloc(sizeof(int *) * SCREEN_Y + 1);
-    if(!game->tex_buf)
-        return ;
-    game->tex_buf[SCREEN_Y] = NULL;
-    while (i < SCREEN_Y)
-    {
-        game->tex_buf[i] = (int *)malloc(SCREEN_X * sizeof(int));
-        if (!game->tex_buf[i])
-            return ;
-        i++;
-    }
+	game->map.ceil_hex = ((parser->ceil_col[0] & 0xFF) << 16) | \
+		(parser->ceil_col[1] & 0xFF) << 8 | (parser->ceil_col[2] & 0xFF);
+	game->map.floor_hex = ((parser->floor_col[0] & 0xFF) << 16) | \
+		(parser->floor_col[1] & 0xFF) << 8 | (parser->floor_col[2] & 0xFF);
 }
 
-void    draw_foor_ceiling(t_game *game, t_parser *parser)
+void	load_xpm(t_game *game, int *tex, char *path, t_img *img)
 {
-    game->map.ceil_hex = ((parser->ceil_col[0] & 0xFF) << 16) | (parser->ceil_col[1] & 0xFF) << 8 | (parser->ceil_col[2] & 0xFF);
-    game->map.floor_hex = ((parser->floor_col[0] & 0xFF) << 16) | (parser->floor_col[1] & 0xFF) << 8 | (parser->floor_col[2] & 0xFF);
+	int	x;
+	int	y;
+
+	y = 0;
+	img->img = mlx_xpm_file_to_image(game->mlx, path, &img->width, \
+		&img->height);
+	if (!img->img)
+		return ;
+	img->data = (int *)mlx_get_data_addr(img->img, &img->bpp, &img->len, \
+		&img->endian);
+	if (!img->data || img->width != texWidth || img->height != texHeight)
+		return ;
+	while (y < img->height)
+	{
+		x = 0;
+		while (x < img->width)
+		{
+			tex[img->width * y + x] = img->data[img->width * y + x];
+			x++;
+		}
+		y++;
+	}
+	mlx_destroy_image(game->mlx, img->img);
 }
 
-void    load_xpm(t_game *game, int *tex, char *path, t_img *img)
+void	load_images(t_game *game, t_parser *data)
 {
-    int x;
-    int y;
+	t_img	img;
 
-    y = 0;
-    img->img = mlx_xpm_file_to_image(game->mlx, path, &img->width, &img->height);
-    if (!img->img)
-        return ;
-    img->data = (int *)mlx_get_data_addr(img->img, &img->bpp, &img->len, &img->endian);
-    if (!img->data || img->width != texWidth || img->height != texHeight)
-        return ;
-    while (y < img->height)
-    {
-        x = 0;
-        while (x < img->width)
-        {
-            tex[img->width * y + x] = img->data[img->width * y + x];
-            x++;            
-        }
-        y++;
-    }
-    mlx_destroy_image(game->mlx, img->img);
+	load_xpm(game, game->texture[0], data->so, &img);
+	load_xpm(game, game->texture[1], data->no, &img);
+	load_xpm(game, game->texture[2], data->we, &img);
+	load_xpm(game, game->texture[3], data->ea, &img);
 }
 
-void    load_images(t_game *game, t_parser *data)
+void	handle_wall_imgs(t_game *game)
 {
-    t_img   img;
+	int	i;
+	int	j;
 
-    load_xpm(game, game->texture[0], data->so, &img);
-    load_xpm(game, game->texture[1], data->no, &img);
-    load_xpm(game, game->texture[2], data->we, &img);
-    load_xpm(game, game->texture[3], data->ea, &img);
-
+	i = 0;
+	game->texture = malloc(5 * sizeof(int *));
+	if (!game->texture)
+		return ;
+	while (i < 4)
+	{
+		game->texture[i] = malloc(sizeof(int) * texWidth * texHeight + 1);
+		if (!game->texture[i++])
+			return ;
+	}
+	i = 0;
+	while (j < 4)
+	{
+		j = 0;
+		while (j < texHeight * texWidth)
+		{
+			game->texture[i][j] = 0;
+			j++;
+		}
+		i++;
+	}
 }
 
-void    handle_wall_imgs(t_game *game)
+void	load_imgs(t_game *game, t_parser *parser)
 {
-    int i;
-    int j;
-
-    i = 0;
-    game->texture = malloc(5 * sizeof(int *));
-    if (!game->texture)
-        return ;
-    while (i < 4)
-    {
-        game->texture[i] = malloc(sizeof(int) * texWidth * texHeight + 1);
-        if (!game->texture[i++])
-            return ;
-    }
-    i = 0;
-    while (j < 4)
-    {
-        j = 0;
-        while (j < texHeight * texWidth)
-        {
-            game->texture[i][j] = 0;
-            j++;
-        }
-        i++;
-    }
-}
-
-void    load_imgs(t_game *game, t_parser *parser)
-{
-    handle_wall_imgs(game);
-    load_images(game, parser);
-    draw_foor_ceiling(game, parser);
-
+	handle_wall_imgs(game);
+	load_images(game, parser);
+	draw_foor_ceiling(game, parser);
 }

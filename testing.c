@@ -5,8 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define X_EVENT_KEY_PRESS 2
-#define mapWidth 24
-#define mapHeight 24
+
 #define screenWidth 640
 #define screenHeight 480
 #define X_EVENT_KEY_EXIT 17
@@ -17,6 +16,8 @@
 
 #define texWidth 64
 #define texHeight 64
+#define MAPWIDTH 24
+#define MAPHEIGHT 24
 
 typedef struct s_im
 {
@@ -54,7 +55,7 @@ int calculateAndSaveToMap(t_info *info);
 void imageDraw(t_info *info);
 
 // 바뀐 맵.
-int worldMap[mapWidth][mapHeight] =
+int worldMap[MAPWIDTH][MAPHEIGHT] =
     {
         {8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 4, 4, 6, 4, 4, 6, 4, 6, 4, 4, 4, 6, 4},
         {8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4},

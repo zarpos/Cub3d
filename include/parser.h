@@ -6,7 +6,7 @@
 /*   By: drubio-m <drubio-m@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 13:52:12 by drubio-m          #+#    #+#             */
-/*   Updated: 2024/09/23 19:28:26 by drubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/23 20:26:43 by drubio-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #define PARSER_H
 
 #include "cub3d.h"
+
+typedef struct s_game t_game;
 
 typedef enum e_texture
 {

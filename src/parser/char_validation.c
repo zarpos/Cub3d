@@ -6,7 +6,7 @@
 /*   By: drubio-m <drubio-m@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 22:23:42 by drubio-m          #+#    #+#             */
-/*   Updated: 2024/09/22 21:21:47 by drubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/23 20:27:00 by drubio-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 static int check_chars(t_map *map_data, char value, int x, int y)
 {
-	if (value != '1' && value != '0' && value != 'N' && value != 'S' && value != 'E' && value != 'W' && value != ' ')
-		ft_error("Invalid value found in map");
+	if (value != '1' && value != '0' && value != 'N'
+			&& value != 'S' && value != 'E' && value != 'W' && value != ' ')
+		ft_error("Ivalid char detected");
 
 	if (value == 'N' || value == 'S' || value == 'E' || value == 'W')
 	{
@@ -52,7 +53,7 @@ void parsing(int argc, char **argv, t_map *map_data)
 	char **map;
 
 	file_content = check_args(argc, argv);
-	get_values(map_data, file_content);
+	set_texture(map_data, file_content);
 	map = file_content + 6;
 	check_map_chars(map_data, map);
 	check_closed_walls(map);

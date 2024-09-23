@@ -6,7 +6,7 @@
 /*   By: drubio-m <drubio-m@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 18:41:23 by drubio-m          #+#    #+#             */
-/*   Updated: 2024/09/21 19:53:24 by drubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:57:15 by drubio-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,5 @@ char	*ft_new_static(char *aux);
 char	*ft_strjoin2(char *s1, char *s2);
 char	*ft_strcpy(char *dst, const char *src);
 void	ft_error(char *msg);
+int		ft_strisnum(char *c);
 #endif

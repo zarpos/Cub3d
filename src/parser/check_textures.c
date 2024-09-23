@@ -6,7 +6,7 @@
 /*   By: drubio-m <drubio-m@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 21:22:17 by drubio-m          #+#    #+#             */
-/*   Updated: 2024/09/22 22:02:54 by drubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:53:03 by drubio-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	set_texture(t_game *game, char **file_con)
 	{
 		if (!file_con[i])
 			ft_error("Missing values for textures and colors");
-		texture_type = identify_line_value(file_con[i]);
+		texture_type = read_texture(file_con[i]);
 		if (texture_type == Error)
 			ft_error("Invalid value for textures and colors");
 		if (texture_type == NO)

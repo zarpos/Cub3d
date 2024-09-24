@@ -6,7 +6,7 @@
 /*   By: drubio-m <drubio-m@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 18:41:23 by drubio-m          #+#    #+#             */
-/*   Updated: 2024/09/24 01:08:15 by drubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/24 17:43:10 by drubio-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
-}t_list;
+}	t_list;
 
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);

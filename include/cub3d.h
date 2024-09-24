@@ -6,7 +6,7 @@
 /*   By: drubio-m <drubio-m@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 13:52:16 by drubio-m          #+#    #+#             */
-/*   Updated: 2024/09/22 21:34:32 by drubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/24 17:38:27 by drubio-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 # include <curses.h>			
 # include <limits.h>
 # include <math.h>
+# include "../minilibx-linux/mlx.h"
 
 // Our libraries
 # include "../libft/libft.h"

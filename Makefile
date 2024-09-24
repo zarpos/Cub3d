@@ -46,7 +46,7 @@ $(OBJ_DIR)%.o: $(GM_DIR)%.c
 
 # basic library compiled
 $(NAME): $(OBJ) $(LIBFT)
-	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -lm -o $(NAME)
+	@$(CC) $(CFLAGS) $(DEBUG) $(OBJ) $(LIBFT) -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
 	@echo "$(GREEN)#### cub3d ####$(COLOR_OFF)"
 	@echo "    -Has been compiled ✅"
 

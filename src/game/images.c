@@ -26,6 +26,13 @@ void	load_xpm(t_game *game, int *tex, char *path, t_img *img)
 	int	y;
 
 	y = 0;
+	printf("PATH: %s\n", path);
+	printf("W: %d\n", img->width);
+	img->width = 64;
+	printf("H: %d\n", img->height);
+	img->height = 64;
+	printf("MLX: %p\n", game->mlx);
+	// exit(1);
 	img->img = mlx_xpm_file_to_image(game->mlx, path, &img->width, \
 		&img->height);
 	if (!img->img)

@@ -73,13 +73,25 @@ void	init_values(t_game *game)
 int	main(void)
 {
 	t_game		*game;
-	t_parser	*parser;
+	t_parser	parser;
 
 	game = malloc(sizeof(t_game));
 	if (!game)
 		return (1);
 	init_values(game);
-	load_imgs(game, parser);
+	parser.rp = 7;
+	parser.err = 0;
+	parser.floor_col[0] = 220;
+	parser.floor_col[1] = 225;
+	parser.floor_col[2] = 225;
+	parser.ceil_col[0] = 255;
+	parser.ceil_col[1] = 255;
+	parser.ceil_col[2] = 200;
+	parser.no = MOSSY;
+	parser.ea = BRICK;
+	parser.we = PURPLE;
+	parser.so = WOOD;
+	load_imgs(game, &parser);
 	game->mlx = mlx_init();
 	game->mlx_win = mlx_new_window(game->mlx, SCREEN_X, SCREEN_Y, NAME);
 	game->image.img = mlx_new_image(game->mlx, SCREEN_X, SCREEN_Y);

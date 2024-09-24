@@ -6,7 +6,7 @@
 /*   By: drubio-m <drubio-m@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 19:57:45 by drubio-m          #+#    #+#             */
-/*   Updated: 2024/08/20 19:28:50 by drubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/24 00:48:41 by drubio-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,18 +58,6 @@ char	*ft_strjoin2(char *s1, char *s2)
 	free(s1);
 	return (str);
 }
-
-/* size_t	ft_strlen(const char *s)
-{
-	int	i;
-
-	i = 0;
-	if (!s)
-		return (0);
-	while (s[i] != '\0')
-		i++;
-	return (i);
-} */
 
 char	*ft_print_line(char *str)
 {
@@ -124,6 +112,7 @@ char	*ft_new_static(char *aux)
 	free(aux);
 	return (ret);
 }
+
 /*
 int main(void)
 {

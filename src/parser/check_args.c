@@ -6,7 +6,7 @@
 /*   By: drubio-m <drubio-m@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:55:30 by drubio-m          #+#    #+#             */
-/*   Updated: 2024/09/23 20:15:27 by drubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/24 01:10:52 by drubio-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	open_validated_file(char **argv)
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
 		ft_error("Error while opening file.");
-
 	if (read(fd, buffer, 1) == 0)
 		ft_error("Empty map file");
 	return (fd);
@@ -46,11 +45,10 @@ char	**process_file(int fd)
 	char	**file_con;
 
 	file = convert_lines(fd);
+	printf("\n Esto es lo que recivo de convert lines: %s\n", file);
 	close(fd);
-
 	file_con = ft_split(file, '\n');
 	free(file);
-
 	return (file_con);
 }
 
@@ -73,7 +71,7 @@ void	verify_blank_line(char *line)
 		ft_error("Empty line in map is not allowed.");
 }
 
-char	*convert_lines(int fd)
+/* char	*convert_lines(int fd)
 {
 	char	*file;
 	char	*line;
@@ -88,6 +86,28 @@ char	*convert_lines(int fd)
 		file = ft_strjoin(file, line);
 		free(line);
 		line = get_next_line(fd);
+	}
+	free(line);
+	return (file);
+} */
+
+char	*convert_lines(int fd)
+{
+	char	*file;
+	char	*line;
+
+	line = get_next_line(fd);
+	//printf("Esto vale line dentro de convert lines antes de llamar a verify_blank_line: %s\n", line);
+	file = ft_calloc(1, 1);
+	if (!file)
+		exit(1);
+	while (line != NULL)
+	{
+	    verify_blank_line(line);
+	//	printf("Línea después de verify_blank_line: %s\n", line); // Mensaje de depuración
+	    file = ft_fstrjoin(file, line);
+	    free(line);
+	    line = get_next_line(fd);
 	}
 	free(line);
 	return (file);

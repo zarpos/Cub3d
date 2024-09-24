@@ -6,7 +6,7 @@
 /*   By: drubio-m <drubio-m@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 22:00:45 by drubio-m          #+#    #+#             */
-/*   Updated: 2024/09/23 19:39:09 by drubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/23 20:47:11 by drubio-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #include "cub3d.h"
 
-static int	get_big_line(char **matrix)
+int	get_big_line(char **matrix)
 {
 	int	j;
 	int	big_line;
@@ -32,7 +32,7 @@ static int	get_big_line(char **matrix)
 	return (big_line);
 }
 
-static void	set_map(char **map, char ***map_cpy)
+void	set_map(char **map, char ***map_cpy)
 {
 	int	i;
 	int	j;
@@ -48,7 +48,7 @@ static void	set_map(char **map, char ***map_cpy)
 	}
 }
 
-static char	**get_map_cpy(char **map)
+char	**get_map_cpy(char **map)
 {
 	int		i;
 	int		j;
@@ -57,7 +57,7 @@ static char	**get_map_cpy(char **map)
 	char	**map_cpy;
 
 	map_heigh = ft_get_matrix_size(map);
-	map_width = ft_get_longest_line(map);
+	map_width = get_big_line(map);
 	map_cpy = ft_calloc(map_heigh + 3, sizeof(char *));
 	if (!map_cpy)
 		exit(1);
@@ -73,11 +73,11 @@ static char	**get_map_cpy(char **map)
 		map_cpy[i][j] = '\0';
 	}
 	map_cpy[i] = NULL;
-	add_og_map(map, &map_cpy);
+	set_map(map, &map_cpy);
 	return (map_cpy);
 }
 
-static void	check_walls(char **map_cpy)
+void	check_walls(char **map_cpy)
 {
 	int	i;
 	int	j;

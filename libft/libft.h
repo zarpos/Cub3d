@@ -6,7 +6,7 @@
 /*   By: drubio-m <drubio-m@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 18:41:23 by drubio-m          #+#    #+#             */
-/*   Updated: 2024/09/23 19:57:15 by drubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/24 01:08:15 by drubio-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,8 @@ char	*ft_strjoin2(char *s1, char *s2);
 char	*ft_strcpy(char *dst, const char *src);
 void	ft_error(char *msg);
 int		ft_strisnum(char *c);
+void	free_matrix(char **matrix);
+int		ft_get_matrix_size(char **env);
+char	*ft_fstrjoin(char *s1, char *s2);
+
 #endif

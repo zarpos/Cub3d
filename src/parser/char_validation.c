@@ -6,13 +6,13 @@
 /*   By: drubio-m <drubio-m@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 22:23:42 by drubio-m          #+#    #+#             */
-/*   Updated: 2024/09/23 20:27:00 by drubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/23 22:51:20 by drubio-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static int check_chars(t_map *map_data, char value, int x, int y)
+int check_chars(t_game *game, char value, int x, int y)
 {
 	if (value != '1' && value != '0' && value != 'N'
 			&& value != 'S' && value != 'E' && value != 'W' && value != ' ')
@@ -20,14 +20,14 @@ static int check_chars(t_map *map_data, char value, int x, int y)
 
 	if (value == 'N' || value == 'S' || value == 'E' || value == 'W')
 	{
-		map_data->player_y = (y * WALL_SIZE) + (WALL_SIZE / 2);
-		map_data->player_x = (x * WALL_SIZE) + (WALL_SIZE / 2);
+		game->map_data.player_y = (y * WALL_SIZE) + (WALL_SIZE / 2);
+		game->map_data.player_x = (x * WALL_SIZE) + (WALL_SIZE / 2);
 		return (1);
 	}
 	return (0);
 }
 
-static void check_map_chars(t_map *map_data, char **map)
+void check_map_chars(t_game *game, char **map)
 {
 	int x;
 	int y;
@@ -39,7 +39,7 @@ static void check_map_chars(t_map *map_data, char **map)
 	{
 		x = -1;
 		while (map[y][++x])
-			player_flag += check_chars(map_data, map[y][x], x, y);
+			player_flag += check_chars(game, map[y][x], x, y);
 	}
 	if (player_flag > 1)
 		ft_error("Multiple players found");
@@ -47,15 +47,15 @@ static void check_map_chars(t_map *map_data, char **map)
 		ft_error("No player position found");
 }
 
-void parsing(int argc, char **argv, t_map *map_data)
+void parsing(int argc, char **argv, t_game *game)
 {
 	char **file_content;
 	char **map;
 
 	file_content = check_args(argc, argv);
-	set_texture(map_data, file_content);
+	set_texture(game, file_content);
 	map = file_content + 6;
-	check_map_chars(map_data, map);
+	check_map_chars(game, map);
 	check_closed_walls(map);
-	map_data->map = map;
+	game->map_data.map = map;
 }

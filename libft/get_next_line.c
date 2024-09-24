@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drubio-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: drubio-m <drubio-m@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 14:05:45 by drubio-m          #+#    #+#             */
-/*   Updated: 2023/02/22 17:08:28 by drubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/24 00:47:59 by drubio-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	str = ft_print_line(aux[fd]);
 	aux[fd] = ft_new_static(aux[fd]);
+	printf("valor de la primera línea devuelta del cub: %s\n", str);
 	return (str);
 }
 

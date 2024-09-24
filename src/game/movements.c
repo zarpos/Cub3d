@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   movements.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fdiaz-gu <fdiaz-gu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:33:49 by fdiaz-gu          #+#    #+#             */
-/*   Updated: 2024/09/23 13:25:59 by fdiaz-gu         ###   ########.fr       */
+/*   Updated: 2024/09/24 22:36:50 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	player_movements(t_game *game, int direction)
 	if (new_pos_x >= 0 && new_pos_x < SCREEN_X && new_pos_y >= 0 && \
 		new_pos_y < SCREEN_Y)
 	{
-		if (!worldMap[new_pos_x][new_pos_y])
+		if (!game->map_data.map[new_pos_x][new_pos_y])
 		{
 			game->player.playerX += move_x;
 			game->player.playerY += move_y;

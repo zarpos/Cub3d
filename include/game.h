@@ -169,6 +169,4 @@ void    draw_img(t_game *game);
 void initialize_tex_buff(t_game *game);
 void	render_walls(t_game *game, t_ray *ray, int x, int y);
 
-extern int worldMap[24][24];
-
 #endif

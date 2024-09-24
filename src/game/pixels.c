@@ -67,8 +67,6 @@ void pixel_map(t_game *game)
 		while (x < SCREEN_X)
 		{
 			color = game->map_data.floor_hex;
-			printf("x %d\n", x);
-			printf("y %d\n", y);
 			game->tex_buf[y][x] = color;
 			color = game->map_data.ceil_hex;
 			game->tex_buf[SCREEN_Y - y - 1][x] = color;

@@ -115,7 +115,7 @@ void	wall_distance(t_game *game, t_ray *ray)
 			ray->mapY += ray->stepY;
 			ray->side = 1;
 		}
-		if (worldMap[ray->mapY][ray->mapX] > 0)
+		if (game->map_data.map[ray->mapY][ray->mapX] > 0)
 			break ;
 	}
 	if (ray->side == 0)

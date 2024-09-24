@@ -38,7 +38,7 @@ int	handle_raycasting(t_game *game)
 		y = game->ray.drawStart;
 		while (y < game->ray.drawEnd)
 		{
-			render_walls(game, game->ray, x, y);
+			render_walls(game, &game->ray, x, y);
 			y++;
 		}
 		x++;

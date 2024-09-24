@@ -162,9 +162,9 @@ int handle_keys(int keycode, t_game *game);
 int end_program(void *l);
 void pixel_map(t_game *game);
 void    load_imgs(t_game *game, t_parser *parser);
-void    draw_img(t_game *game):
+void    draw_img(t_game *game);
 void initialize_tex_buff(t_game *game);
-
+void	render_walls(t_game *game, t_ray *ray, int x, int y);
 
 extern int worldMap[24][24];
 

@@ -6,7 +6,7 @@
 /*   By: drubio-m <drubio-m@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 14:05:45 by drubio-m          #+#    #+#             */
-/*   Updated: 2024/09/24 11:11:31 by drubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/24 18:41:08 by drubio-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ char	*get_next_line(int fd)
 		return (NULL);
 	str = ft_print_line(aux[fd]);
 	aux[fd] = ft_new_static(aux[fd]);
-	printf("valor de la primera línea devuelta del cub: %s\n", str);
 	return (str);
 }
 

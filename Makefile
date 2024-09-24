@@ -1,6 +1,6 @@
 NAME = cub3d
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -I ./include -I ./libft -I $(MLX_DIR) #-g3 #fasinitize=address
+CFLAGS = -Wall -Werror -Wextra -I ./include -I ./libft -I $(MLX_DIR) -g3 -fsanitize=address
 MAKEFLAGS += --no-print-directory
 
 RM = rm -f

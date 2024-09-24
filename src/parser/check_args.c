@@ -6,7 +6,7 @@
 /*   By: drubio-m <drubio-m@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:55:30 by drubio-m          #+#    #+#             */
-/*   Updated: 2024/09/24 16:04:37 by drubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/24 18:40:16 by drubio-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ char	**process_file(int fd)
 	char	**file_con;
 
 	file = convert_lines(fd);
-	printf("\n Esto es lo que recivo de convert lines: %s\n", file);
 	close(fd);
 	file_con = ft_split(file, '\n');
 	free(file);
@@ -99,14 +98,12 @@ char	*convert_lines(int fd)
 	line = get_next_line(fd);
 	if (!line)
 		ft_error("Empty line in file!!");
-	//printf("Esto vale line dentro de convert lines antes de llamar a verify_blank_line: %s\n", line);
 	file = ft_calloc(1, 1);
 	if (!file)
 		exit(1);
 	while (line != NULL)
 	{
 	    verify_blank_line(line);
-	//	printf("Línea después de verify_blank_line: %s\n", line); // Mensaje de depuración
 	    file = ft_fstrjoin(file, line);
 	    free(line);
 	    line = get_next_line(fd);

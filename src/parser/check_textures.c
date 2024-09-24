@@ -6,7 +6,7 @@
 /*   By: drubio-m <drubio-m@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 21:22:17 by drubio-m          #+#    #+#             */
-/*   Updated: 2024/09/24 18:18:47 by drubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/24 18:40:34 by drubio-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 t_texture read_texture(char *line)
 {
-	//
-	printf("\nEntro a read texture y line vale esto: %s\n", line);
-	//
 	while (*line && (*line == ' ' || *line == '	'))
 		line++;
 	if (ft_strnstr(line, "NO ", 3) || ft_strnstr(line, "NO	", 3))
@@ -43,9 +40,6 @@ char	*get_texture(char *line)
 		line++;
 	line += 2;
 	texture_path = ft_strtrim(line, " 	");
-	//
-	printf("Processing texture: %s\n", texture_path);
-	//
 	if (!ft_strlen(texture_path))
 		ft_error("There are not textures for the walls!");
 	return (texture_path);
@@ -90,7 +84,6 @@ void	set_texture(t_game *game, char **file_con)
 	{
 		if (!file_con[i])
 			ft_error("Missing values for textures and colors");
-		printf("Línea pasada a read_texture: %s\n", file_con[i]);
 		texture_type = read_texture(file_con[i]);
 		if (texture_type == Error)
 			ft_error("Invalid value for textures and colors");

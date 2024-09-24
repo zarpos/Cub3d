@@ -1,13 +1,19 @@
 NAME = cub3d
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -I ./include -I ./libft -g3 #fasinitize=address
+CFLAGS = -Wall -Werror -Wextra -I ./include -I ./libft -I $(MLX_DIR) #-g3 #fasinitize=address
 MAKEFLAGS += --no-print-directory
 
 RM = rm -f
 
 SRC_SRC = main.c
 PRS_SRC = check_args.c char_validation.c check_textures.c check_game.c
-GME_SRC =
+GME_SRC = images.c main_game.c movements.c pixels.c raycast.c
+
+MLX_DIR         = ./minilibx-linux
+MLX_MAKE        = Makefile
+MLX_PATH        = ${MLX_DIR}/libmlx.a
+MFLAGS          = -L $(MLX_DIR) -lmlx -lXext -lX11 -lm -lbsd
+
 
 SRC = $(SRC_SRC) $(PRS_SRC) $(GME_SRC)
 
@@ -41,12 +47,13 @@ $(OBJ_DIR)%.o: $(PRS_DIR)%.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 # Objects for Game
-$(OBJ_DIR)%.o: $(GM_DIR)%.c
+$(OBJ_DIR)%.o: $(GME_DIR)%.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 # basic library compiled
 $(NAME): $(OBJ) $(LIBFT)
-	@$(CC) $(CFLAGS) $(DEBUG) $(OBJ) $(LIBFT) -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
+	@$(MAKE) -C $(MLX_DIR) > /dev/null 2>&1 
+	@$(CC) $(CFLAGS) $(DEBUG) $(OBJ) $(LIBFT) -o $(NAME) $(MFLAGS)
 	@echo "$(GREEN)#### cub3d ####$(COLOR_OFF)"
 	@echo "    -Has been compiled ✅"
 

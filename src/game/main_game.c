@@ -54,12 +54,6 @@ int	end_program(void *l)
 
 void	init_values(t_game *game)
 {
-	game->map.sky.red = 135;
-	game->map.sky.green = 206;
-	game->map.sky.blue = 235;
-	game->map.floor.red = 34;
-	game->map.floor.green = 139;
-	game->map.floor.blue = 34;
 	game->player.playerX = 12;
 	game->player.playerY = 5;
 	game->player.dirX = -1;
@@ -70,7 +64,7 @@ void	init_values(t_game *game)
 	game->player.rotSpeed = 0.05;
 }
 
-int	main(void)
+/* int	main(void)
 {
 	t_game		game;
 	t_parser	parser;
@@ -103,4 +97,4 @@ int	main(void)
 	mlx_hook(game.mlx_win, KEY_PRESS, (1L << 0), &handle_keys, &game);
 	mlx_loop(game.mlx);
 	return (0);
-}
+} */

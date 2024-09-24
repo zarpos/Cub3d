@@ -12,12 +12,12 @@
 
 #include "../../include/cub3d.h"
 
-void	draw_foor_ceiling(t_game *game, t_parser *parser)
+void	draw_foor_ceiling(t_game *game)
 {
-	game->map.ceil_hex = ((parser->ceil_col[0] & 0xFF) << 16) | \
-		(parser->ceil_col[1] & 0xFF) << 8 | (parser->ceil_col[2] & 0xFF);
-	game->map.floor_hex = ((parser->floor_col[0] & 0xFF) << 16) | \
-		(parser->floor_col[1] & 0xFF) << 8 | (parser->floor_col[2] & 0xFF);
+	game->map_data.ceil_hex = ((game->map_data.ceiling.red & 0xFF) << 16) | \
+		(game->map_data.ceiling.green & 0xFF) << 8 | (game->map_data.ceiling.blue & 0xFF);
+	game->map_data.floor_hex = ((game->map_data.floor.red & 0xFF) << 16) | \
+		(game->map_data.floor.green & 0xFF) << 8 | (game->map_data.floor.blue & 0xFF);
 }
 
 void load_xpm(t_game *game, int *tex, char *path, t_img *img)
@@ -55,16 +55,16 @@ void load_xpm(t_game *game, int *tex, char *path, t_img *img)
 }
 
 
-void	load_images(t_game *game, t_parser *data)
+void	load_images(t_game *game)
 {
 	t_img	img;
 	
-	img.width = 0;
-	img.height = 0; 
-	load_xpm(game, game->texture[0], data->so, &img);
-	load_xpm(game, game->texture[1], data->no, &img);
-	load_xpm(game, game->texture[2], data->we, &img);
-	load_xpm(game, game->texture[3], data->ea, &img);
+/* 	img.width = 0;
+	img.height = 0;  */
+	load_xpm(game, game->texture[0], game->map_data.so, &img);
+	load_xpm(game, game->texture[1], game->map_data.no, &img);
+	load_xpm(game, game->texture[2], game->map_data.we, &img);
+	load_xpm(game, game->texture[3], game->map_data.ea, &img);
 	// free(data->so);
 	// free(data->no);
 	// free(data->we);
@@ -102,9 +102,9 @@ void	handle_wall_imgs(t_game *game)
 	}
 }
 
-void	load_imgs(t_game *game, t_parser *parser)
+void	load_imgs(t_game *game)
 {
 	handle_wall_imgs(game);
-	load_images(game, parser);
-	draw_foor_ceiling(game, parser);
+	load_images(game);
+	draw_foor_ceiling(game);
 }

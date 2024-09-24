@@ -63,9 +63,9 @@ void	pixel_map(t_game *game)
 		x = 0;
 		while (x < SCREEN_X)
 		{
-			color = game->map.floor_hex;
+			color = game->map_data.floor_hex;
 			game->tex_buf[y][x] = color;
-			color = game->map.ceil_hex;
+			color = game->map_data.ceil_hex;
 			game->tex_buf[SCREEN_Y - y - 1][x] = color;
 			x++;
 		}

@@ -6,30 +6,11 @@
 /*   By: drubio-m <drubio-m@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 21:22:17 by drubio-m          #+#    #+#             */
-/*   Updated: 2024/09/24 00:55:38 by drubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/24 18:18:47 by drubio-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-/* t_texture read_texture(char *line)
-{
-	while (*line && (*line == ' ' || *line == '	'))
-		line++;
-	if (ft_strnstr(line, "NO ", 3) || ft_strnstr(line, "NO	", 3))
-		return (NO);
-	if (ft_strnstr(line, "SO ", 3) || ft_strnstr(line, "SO	", 3))
-		return (SO); 
-	if (ft_strnstr(line, "WE ", 3) || ft_strnstr(line, "WE	", 3))
-		return (WE); 
-	if (ft_strnstr(line, "EA ", 3) || ft_strnstr(line, "EA	", 3))
-		return (EA); 
-	if (ft_strnstr(line, "F ", 2) || ft_strnstr(line, "F	", 2))
-		return (F);  
-	if (ft_strnstr(line, "C ", 2) || ft_strnstr(line, "C	", 2))
-		return (C);  
-	return (Error);     
-} */
 
 t_texture read_texture(char *line)
 {
@@ -114,13 +95,13 @@ void	set_texture(t_game *game, char **file_con)
 		if (texture_type == Error)
 			ft_error("Invalid value for textures and colors");
 		if (texture_type == NO)
-			game->map_data.texture_no = get_texture(file_con[i]);
+			game->map_data.no = get_texture(file_con[i]);
 		else if (texture_type == SO)
-			game->map_data.texture_so = get_texture(file_con[i]);
+			game->map_data.so = get_texture(file_con[i]);
 		else if (texture_type == WE)
-			game->map_data.texture_we = get_texture(file_con[i]);
+			game->map_data.we = get_texture(file_con[i]);
 		else if (texture_type == EA)
-			game->map_data.texture_ea = get_texture(file_con[i]);
+			game->map_data.ea = get_texture(file_con[i]);
 		else if (texture_type == C)
 			game->map_data.ceiling = read_colors(file_con[i]);
 		else if (texture_type == F)

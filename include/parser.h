@@ -6,7 +6,7 @@
 /*   By: drubio-m <drubio-m@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 13:52:12 by drubio-m          #+#    #+#             */
-/*   Updated: 2024/09/23 20:33:23 by drubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/24 18:16:20 by drubio-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,18 @@ typedef struct s_map
 	char	**map_copy;
 	int		rows;
 	int		cols;
-	char	*texture_no;
-	char	*texture_so;
-	char	*texture_we;
-	char	*texture_ea;
+	char	*no;
+	char	*so;
+	char	*we;
+	char	*ea;
 	t_color	floor;
 	t_color	ceiling;
 	int		max_x;
 	int		max_y;
 	int		player_x;
 	int		player_y;
+	int		floor_hex;
+	int		ceil_hex;
 }	t_map;
 
 

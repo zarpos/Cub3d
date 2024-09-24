@@ -65,7 +65,7 @@ typedef struct s_player
 	double planeY;
 } t_player;
 
-typedef struct s_parser
+/* typedef struct s_parser
 {
 	int	rp;
 	int err;
@@ -77,7 +77,7 @@ typedef struct s_parser
 	int ceil_col[3];
 
 } t_parser;
-
+ */
 
 typedef struct s_ray
 {
@@ -126,7 +126,7 @@ typedef struct s_colors
 	int alpha;
 } t_colors;
 
-typedef struct s_map
+/* typedef struct s_map
 {
 	int **map;
 	size_t map_width;
@@ -135,7 +135,7 @@ typedef struct s_map
 	int ceil_hex;
 	t_colors floor;
 	t_colors sky;
-} t_map;
+} t_map; */
 
 typedef struct s_game
 {
@@ -153,6 +153,9 @@ typedef struct s_game
 
 } t_game;
 
+void	init_values(t_game *game);
+void	draw_foor_ceiling(t_game *game);
+int	main_loop(t_game *game);
 int handle_raycasting(t_game *game);
 void init_raycast_variables(t_game *game, t_ray *ray, int x);
 void looping_rays(t_game *game, t_ray *ray);
@@ -161,7 +164,7 @@ void wall_height(t_game *game, t_ray *ray);
 int handle_keys(int keycode, t_game *game);
 int end_program(void *l);
 void pixel_map(t_game *game);
-void    load_imgs(t_game *game, t_parser *parser);
+void    load_imgs(t_game *game);
 void    draw_img(t_game *game);
 void initialize_tex_buff(t_game *game);
 void	render_walls(t_game *game, t_ray *ray, int x, int y);

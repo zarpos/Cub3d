@@ -20,48 +20,55 @@ void	draw_foor_ceiling(t_game *game, t_parser *parser)
 		(parser->floor_col[1] & 0xFF) << 8 | (parser->floor_col[2] & 0xFF);
 }
 
-void	load_xpm(t_game *game, int *tex, char *path, t_img *img)
+void load_xpm(t_game *game, int *tex, char *path, t_img *img)
 {
-	int	x;
-	int	y;
+    int x;
+    int y;
 
-	y = 0;
-	printf("PATH: %s\n", path);
-	printf("W: %d\n", img->width);
-	img->width = 64;
-	printf("H: %d\n", img->height);
-	img->height = 64;
-	printf("MLX: %p\n", game->mlx);
-	// exit(1);
-	img->img = mlx_xpm_file_to_image(game->mlx, path, &img->width, \
-		&img->height);
-	if (!img->img)
-		return ;
-	img->data = (int *)mlx_get_data_addr(img->img, &img->bpp, &img->len, \
-		&img->endian);
-	if (!img->data || img->width != texWidth || img->height != texHeight)
-		return ;
-	while (y < img->height)
-	{
-		x = 0;
-		while (x < img->width)
-		{
-			tex[img->width * y + x] = img->data[img->width * y + x];
-			x++;
-		}
-		y++;
-	}
-	mlx_destroy_image(game->mlx, img->img);
+    y = 0;    
+    img->img = mlx_xpm_file_to_image(game->mlx, path, &img->width, &img->height);
+
+    // Verifica si la imagen fue cargada correctamente
+    if (!img->img) {
+        printf("Error al cargar la imagen %s\n", path);
+        exit(1);
+    }
+
+    // Ahora sí puedes hacer la validación de img->data
+    img->data = (int *)mlx_get_data_addr(img->img, &img->bpp, &img->len, &img->endian);
+    if (!img->data || img->width != texWidth || img->height != texHeight) {
+        printf("Error: img->data es NULL o las dimensiones son incorrectas.\n");
+        return;
+    }
+
+    while (y < img->height) {
+        x = 0;
+        while (x < img->width) {
+            tex[img->width * y + x] = img->data[img->width * y + x];
+            x++;
+        }
+        y++;
+    }
+
+    // Destruye la imagen después de copiar los datos
+    mlx_destroy_image(game->mlx, img->img);
 }
+
 
 void	load_images(t_game *game, t_parser *data)
 {
 	t_img	img;
-
+	
+	img.width = 0;
+	img.height = 0; 
 	load_xpm(game, game->texture[0], data->so, &img);
 	load_xpm(game, game->texture[1], data->no, &img);
 	load_xpm(game, game->texture[2], data->we, &img);
 	load_xpm(game, game->texture[3], data->ea, &img);
+	// free(data->so);
+	// free(data->no);
+	// free(data->we);
+	// free(data->ea);
 }
 
 void	handle_wall_imgs(t_game *game)
@@ -75,9 +82,12 @@ void	handle_wall_imgs(t_game *game)
 		return ;
 	while (i < 4)
 	{
-		game->texture[i] = malloc(sizeof(int) * texWidth * texHeight + 1);
+		game->texture[i] = malloc(sizeof(int) * (texWidth * texHeight + 1));
 		if (!game->texture[i++])
-			return ;
+		{
+			printf("ERROR\n");
+			exit(1);
+		}
 	}
 	i = 0;
 	while (j < 4)

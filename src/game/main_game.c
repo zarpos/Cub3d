@@ -36,9 +36,9 @@ int	handle_raycasting(t_game *game)
 		wall_distance(game, &ray);
 		wall_height(game, &ray);
 		y = game->ray.drawStart;
-		while (y < game->ray.drawEnd)
+		while (y < ray.drawEnd)
 		{
-			render_walls(game, &game->ray, x, y);
+			render_walls(game, &ray, x, y);
 			y++;
 		}
 		x++;
@@ -72,13 +72,14 @@ void	init_values(t_game *game)
 
 int	main(void)
 {
-	t_game		*game;
+	t_game		game;
 	t_parser	parser;
 
-	game = malloc(sizeof(t_game));
-	if (!game)
-		return (1);
-	init_values(game);
+	// game = malloc(sizeof(t_game));
+	// if (!game)
+	// 	return (1);
+	init_values(&game);
+	initialize_tex_buff(&game);
 	parser.rp = 7;
 	parser.err = 0;
 	parser.floor_col[0] = 220;
@@ -91,15 +92,15 @@ int	main(void)
 	parser.ea = BRICK;
 	parser.we = PURPLE;
 	parser.so = WOOD;
-	load_imgs(game, &parser);
-	game->mlx = mlx_init();
-	game->mlx_win = mlx_new_window(game->mlx, SCREEN_X, SCREEN_Y, NAME);
-	game->image.img = mlx_new_image(game->mlx, SCREEN_X, SCREEN_Y);
-	game->image.data = (int *)mlx_get_data_addr(game->image.img, \
-		&game->image.bpp, &game->image.len, &game->image.endian);
-	mlx_loop_hook(game->mlx, &main_loop, game);
-	mlx_hook(game->mlx_win, DESTROY, 0, &end_program, game);
-	mlx_hook(game->mlx_win, KEY_PRESS, (1L << 0), &handle_keys, game);
-	mlx_loop(game->mlx);
+	game.mlx = mlx_init();
+	game.mlx_win = mlx_new_window(game.mlx, SCREEN_X, SCREEN_Y, NAME);
+	load_imgs(&game, &parser);
+	game.image.img = mlx_new_image(game.mlx, SCREEN_X, SCREEN_Y);
+	game.image.data = (int *)mlx_get_data_addr(game.image.img, \
+		&game.image.bpp, &game.image.len, &game.image.endian);
+	mlx_loop_hook(game.mlx, &main_loop, &game);
+	mlx_hook(game.mlx_win, DESTROY, 0, &end_program, &game);
+	mlx_hook(game.mlx_win, KEY_PRESS, (1L << 0), &handle_keys, &game);
+	mlx_loop(game.mlx);
 	return (0);
 }

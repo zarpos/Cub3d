@@ -17,9 +17,12 @@ void	initialize_tex_buff(t_game *game)
 	int	i;
 
 	i = 0;
-	game->tex_buf = (int **)malloc(sizeof(int *) * SCREEN_Y + 1);
+	game->tex_buf = (int **)malloc(sizeof(int *) * (SCREEN_Y + 1));
 	if (!game->tex_buf)
-		return ;
+	{
+		printf("A\n");
+		exit(1);
+	}
 	game->tex_buf[SCREEN_Y] = NULL;
 	while (i < SCREEN_Y)
 	{

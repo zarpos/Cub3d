@@ -6,7 +6,7 @@
 /*   By: drubio-m <drubio-m@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:55:30 by drubio-m          #+#    #+#             */
-/*   Updated: 2024/09/24 01:10:52 by drubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/24 16:04:37 by drubio-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	open_validated_file(char **argv)
 	int		len;
 	int		fd;
 	char	*file_ext;
-	char	buffer[1];
+//	char	buffer[1];
 
 	len = ft_strlen(argv[1]);
 	if (len < 4)
@@ -34,8 +34,8 @@ int	open_validated_file(char **argv)
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
 		ft_error("Error while opening file.");
-	if (read(fd, buffer, 1) == 0)
-		ft_error("Empty map file");
+	//if (read(fd, buffer, 1) == 0)
+	//	ft_error("Empty map file");
 	return (fd);
 }
 
@@ -97,6 +97,8 @@ char	*convert_lines(int fd)
 	char	*line;
 
 	line = get_next_line(fd);
+	if (!line)
+		ft_error("Empty line in file!!");
 	//printf("Esto vale line dentro de convert lines antes de llamar a verify_blank_line: %s\n", line);
 	file = ft_calloc(1, 1);
 	if (!file)

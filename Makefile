@@ -1,6 +1,6 @@
 NAME = cub3d
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -I ./include -I ./libft #-g3 fasinitize=address
+CFLAGS = -Wall -Werror -Wextra -I ./include -I ./libft -g3 #fasinitize=address
 MAKEFLAGS += --no-print-directory
 
 RM = rm -f

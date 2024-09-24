@@ -6,11 +6,12 @@
 /*   By: drubio-m <drubio-m@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 14:05:45 by drubio-m          #+#    #+#             */
-/*   Updated: 2024/09/24 00:47:59 by drubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/24 11:11:31 by drubio-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <fcntl.h>
 
 char	*ft_write_in_aux(int fd, char *aux)
 {
@@ -52,21 +53,21 @@ char	*get_next_line(int fd)
 	return (str);
 }
 
-/*int main(void)
+/* int main(void)
 {
 	int fd1;
 	char	*str;
 	
-	fd1 = open("text.txt", O_RDONLY);
+	fd1 = open("/Users/diegorubio/Documents/42Cursus/Cub3d/maps/arena.cub", O_RDONLY);
 	str = get_next_line(fd1);
 	printf("%s\n", str);
-	str = get_next_line(fd1);
-	printf("%s\n", str);
-	str = get_next_line(fd1);
-	printf("%s\n", str);
-	str = get_next_line(fd1);
-	printf("%s\n", str);
+	//str = get_next_line(fd1);
+	//printf("%s\n", str);
+	//str = get_next_line(fd1);
+	//printf("%s\n", str);
+	//str = get_next_line(fd1);
+	//printf("%s\n", str);
 	close(fd1);
 	return (0);
-}
-*/
+} */
+

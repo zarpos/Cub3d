@@ -58,7 +58,7 @@ void	render_walls(t_game *game, t_ray *ray, int x, int y)
 	color = game->texture[ray->tex_n][texHeight * aux_tex + ray->texX];
 	if (ray->side == 1)
 		color = (color >> 1) & 8355711;
-	game->tex_buf[y][SCREEN_X - x -1] = color;
+	game->tex_buf[y][SCREEN_X - x - 1] = color;
 }
 
 void	init_raycast_variables(t_game *game, t_ray *ray, int x)

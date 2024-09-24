@@ -55,8 +55,6 @@
 
 typedef struct s_player
 {
-	double playerX;
-	double playerY;
 	double dirX;
 	double dirY;
 	double moveSpeed;

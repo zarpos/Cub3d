@@ -54,8 +54,6 @@ int	end_program(void *l)
 
 void	init_values(t_game *game)
 {
-	game->player.playerX = 12;
-	game->player.playerY = 5;
 	game->player.dirX = -1;
 	game->player.dirY = 0;
 	game->player.planeX = 0;

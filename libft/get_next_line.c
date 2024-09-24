@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drubio-m <drubio-m@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 14:05:45 by drubio-m          #+#    #+#             */
-/*   Updated: 2024/09/24 18:41:08 by drubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/24 23:51:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_write_in_aux(int fd, char *aux)
 	if (!buff)
 		return (NULL);
 	bytes = 1;
-	while (!ft_strchr(aux, '\n') && bytes != 0)
+	while (!ft_strchr2(aux, '\n') && bytes != 0)
 	{	
 		bytes = read(fd, buff, BUFFER_SIZE);
 		if (bytes == -1)

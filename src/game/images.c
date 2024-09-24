@@ -27,19 +27,11 @@ void load_xpm(t_game *game, int *tex, char *path, t_img *img)
 
     y = 0;    
     img->img = mlx_xpm_file_to_image(game->mlx, path, &img->width, &img->height);
-
-    // Verifica si la imagen fue cargada correctamente
-    if (!img->img) {
-        printf("Error al cargar la imagen %s\n", path);
-        exit(1);
-    }
-
-    // Ahora sí puedes hacer la validación de img->data
+    if (!img->img)
+        ft_error("Error al cargar la imagen");
     img->data = (int *)mlx_get_data_addr(img->img, &img->bpp, &img->len, &img->endian);
-    if (!img->data || img->width != texWidth || img->height != texHeight) {
-        printf("Error: img->data es NULL o las dimensiones son incorrectas.\n");
-        return;
-    }
+    if (!img->data || img->width != texWidth || img->height != texHeight) 
+		ft_error("Error en la imagen");
 
     while (y < img->height) {
         x = 0;
@@ -49,8 +41,6 @@ void load_xpm(t_game *game, int *tex, char *path, t_img *img)
         }
         y++;
     }
-
-    // Destruye la imagen después de copiar los datos
     mlx_destroy_image(game->mlx, img->img);
 }
 
@@ -59,16 +49,14 @@ void	load_images(t_game *game)
 {
 	t_img	img;
 	
-/* 	img.width = 0;
-	img.height = 0;  */
 	load_xpm(game, game->texture[0], game->map_data.so, &img);
 	load_xpm(game, game->texture[1], game->map_data.no, &img);
 	load_xpm(game, game->texture[2], game->map_data.we, &img);
 	load_xpm(game, game->texture[3], game->map_data.ea, &img);
-	// free(data->so);
-	// free(data->no);
-	// free(data->we);
-	// free(data->ea);
+	free(game->map_data.so);
+	free(game->map_data.no);
+	free(game->map_data.we);
+	free(game->map_data.ea);
 }
 
 void	handle_wall_imgs(t_game *game)
@@ -77,17 +65,14 @@ void	handle_wall_imgs(t_game *game)
 	int	j;
 
 	i = 0;
-	game->texture = malloc(5 * sizeof(int *));
+	game->texture = ft_calloc(5, sizeof(int *));
 	if (!game->texture)
 		return ;
 	while (i < 4)
 	{
-		game->texture[i] = malloc(sizeof(int) * (texWidth * texHeight + 1));
+		game->texture[i] = ft_calloc(sizeof(int), (texWidth * texHeight + 1));
 		if (!game->texture[i++])
-		{
-			printf("ERROR\n");
-			exit(1);
-		}
+			ft_error("Error en la texturas");
 	}
 	i = 0;
 	while (j < 4)

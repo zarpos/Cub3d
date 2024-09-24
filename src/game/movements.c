@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:33:49 by fdiaz-gu          #+#    #+#             */
-/*   Updated: 2024/09/24 22:36:50 by marvin           ###   ########.fr       */
+/*   Updated: 2024/09/25 00:27:37 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,15 @@ static void	player_movements(t_game *game, int direction)
 
 	move_x = direction * game->player.moveSpeed * game->player.dirX;
 	move_y = direction * game->player.moveSpeed * game->player.dirY;
-	new_pos_x = (int)(game->player.playerX + move_x);
-	new_pos_y = (int)(game->player.playerY + move_y);
+	new_pos_x = (int)(game->map_data.player_x + move_x);
+	new_pos_y = (int)(game->map_data.player_y + move_y);
 	if (new_pos_x >= 0 && new_pos_x < SCREEN_X && new_pos_y >= 0 && \
 		new_pos_y < SCREEN_Y)
 	{
 		if (!game->map_data.map[new_pos_x][new_pos_y])
 		{
-			game->player.playerX += move_x;
-			game->player.playerY += move_y;
+			game->map_data.player_x += move_x;
+			game->map_data.player_y += move_y;
 		}
 	}
 }

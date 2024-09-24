@@ -52,6 +52,7 @@ void draw_img(t_game *game)
 		}
 		y++;
 	}
+	mlx_put_image_to_window(game->mlx, game->mlx_win, game->image.img, 0, 0);
 }
 
 void pixel_map(t_game *game)

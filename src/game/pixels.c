@@ -19,19 +19,13 @@ void initialize_tex_buff(t_game *game)
 	i = 0;
 	game->tex_buf = ft_calloc(sizeof(int *), SCREEN_Y + 1);
 	if (!game->tex_buf)
-	{
-		printf("NO MALLOC\n");
-		exit(1);
-	}
+	ft_error("Error ala reservar memoria");
 	game->tex_buf[SCREEN_Y] = NULL;
 	while (i < SCREEN_Y)
 	{
 		game->tex_buf[i] = ft_calloc(SCREEN_X, sizeof(int));
 		if (!game->tex_buf[i])
-		{
-			printf("NO MALLOC\n");
-			exit(1);
-		}
+			ft_error("Error ala reservar memoria");
 		i++;
 	}
 }

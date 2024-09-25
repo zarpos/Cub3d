@@ -24,8 +24,10 @@ void render_walls(t_game *game, t_ray *ray, int x, int y)
 		ray->tex_n = 3;
 	else if (ray->side == 0 && ray->dirX < 0)
 		ray->tex_n = 2;
-	else if (ray->side == 1 && ray->dirX > 0)
+	else if (ray->side == 1 && ray->dirY > 0)
 		ray->tex_n = 1;
+	else if (ray->side == 1 && ray->dirY < 0)
+		ray->tex_n = 0;
 	// printf("ray->tex_n: %d, texHeight: %d, aux_tex: %d, ray->texX: %d\n",
 	// 	   ray->tex_n, texHeight, aux_tex, ray->texX);
 	color = game->texture[ray->tex_n][texHeight * aux_tex + ray->texX];
@@ -36,22 +38,21 @@ void render_walls(t_game *game, t_ray *ray, int x, int y)
 
 void init_raycast_variables(t_game *game, t_ray *ray, int x)
 {
-	ray->camX = 2 * x / (double)(SCREEN_X)-1;
+	ray->camX = 2 * x / (double)SCREEN_X - 1;
 	ray->dirX = game->player.dirX + game->player.planeX * ray->camX;
 	ray->dirY = game->player.dirY + game->player.planeY * ray->camX;
-	ray->mapX = (game->map_data.player_x);
+	ray->mapX = (int)(game->map_data.player_x);
 	// printf("PX %d\n", game->map_data.player_x);
 	// printf("S¡MX %d\n", ray->mapX);
-	ray->mapY = (game->map_data.player_y);
-	if (ray->dirX == 0)			// Verificar si dirX es cero
-		ray->deltaDistX = 1e30; // Asignar un valor grande para indicar distancia infinita
+	ray->mapY = (int)(game->map_data.player_y);
+	if (ray->dirX == 0)
+		ray->deltaDistX = 1e30;
 	else
-		ray->deltaDistX = fabs(1 / ray->dirX); // Calcular deltaDistX
-
-	if (ray->dirY == 0)			// Verificar si dirY es cero
-		ray->deltaDistY = 1e30; // Asignar un valor grande para indicar distancia infinita
+		ray->deltaDistX = fabs(1 / ray->dirX);
+	if (ray->dirY == 0)
+		ray->deltaDistY = 1e30;
 	else
-		ray->deltaDistY = fabs(1 / ray->dirY); // Calcular deltaDistY
+		ray->deltaDistY = fabs(1 / ray->dirY);
 }
 
 void looping_rays(t_game *game, t_ray *ray)
@@ -95,9 +96,9 @@ void wall_distance(t_game *game, t_ray *ray)
 			ray->mapY += ray->stepY;
 			ray->side = 1;
 		}
-		// printf("SX %d\n", ray->stepX);
-		// printf("MY %d\n", ray->mapY);
-		// printf("MX %d\n", ray->mapX);
+		printf("SX %d\n", ray->stepX);
+		printf("MY %d\n", ray->mapY);
+		printf("MX %d\n", ray->mapX);
 		if (game->map_data.map[ray->mapY][ray->mapX] == '1')
 			break;
 	}
@@ -124,12 +125,11 @@ void wall_height(t_game *game, t_ray *ray)
 	if (ray->drawEnd >= SCREEN_Y)
 		ray->drawEnd = SCREEN_Y - 1;
 	if (ray->side == 0)
-		ray->wallX = game->map_data.player_x + ray->wallDist * ray->dirX;
+		ray->wallX = game->map_data.player_y + ray->wallDist * ray->dirY;
 	else
-		ray->wallX = game->map_data.player_x + ray->wallDist * ray->dirY;
+		ray->wallX = game->map_data.player_x + ray->wallDist * ray->dirX;
 	ray->wallX -= floor(ray->wallX);
 	ray->texX = (int)(ray->wallX * (double)texWidth);
-	// printf("WALLX %f\n", ray->wallX);
 	if (ray->side == 0 && ray->dirX > 0)
 		ray->texX = texWidth - ray->texX - 1;
 	if (ray->side == 1 && ray->dirY < 0)

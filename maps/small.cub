@@ -1,7 +1,7 @@
-NO textures/wood.xpm
-SO textures/redbrick.xpm
-WE textures/greystone.xpm
-EA textures/colorstone.xpm
+NO textures/bluestone.xpm
+SO textures/colorstone.xpm
+WE textures/eagle.xpm
+EA textures/redbrick.xpm
 
 F 0,50,100
 C 0,0,255

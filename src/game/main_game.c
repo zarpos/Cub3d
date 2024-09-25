@@ -12,7 +12,60 @@
 
 #include "../../include/cub3d.h"
 
-int	main_loop(t_game *game)
+void init_orientation(t_game *game, char **map, int i, int j)
+{
+	char c;
+
+	c = map[i][j];
+	if (c == 'S')
+	{
+		game->player.dirX = 0;
+		game->player.dirY = 1;
+	}
+	else if (c == 'E')
+	{
+		game->player.dirX = 1;
+		game->player.dirY = 0;
+	}
+	else if (c == 'W')
+	{
+		game->player.dirX = -1;
+		game->player.dirY = 0;
+	}
+	else if (c == 'N')
+	{
+		game->player.dirX = 0;
+		game->player.dirY = -1;
+	}
+	game->player.planeX = -game->player.dirY * 0.66;
+	game->player.planeY = game->player.dirX * 0.66;
+}
+
+
+static void get_player_pos(t_game *game)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (game->map_data.map[i])
+	{
+		j = 0;
+		while (game->map_data.map[i][j])
+		{
+			if (ft_strchr("NESW", game->map_data.map[i][j]))
+			{
+				game->map_data.player_x = i + 0.5;
+				game->map_data.player_y = j + 0.5;
+				init_orientation(game, game->map_data.map, i, j);
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+int main_loop(t_game *game)
 {
 	pixel_map(game);
 	handle_raycasting(game);
@@ -21,11 +74,11 @@ int	main_loop(t_game *game)
 	return (1);
 }
 
-int	handle_raycasting(t_game *game)
+int handle_raycasting(t_game *game)
 {
-	int		x;
-	int		y;
-	t_ray	ray;
+	int x;
+	int y;
+	t_ray ray;
 
 	x = 0;
 	y = 0;
@@ -46,13 +99,13 @@ int	handle_raycasting(t_game *game)
 	return (0);
 }
 
-int	end_program(void *l)
+int end_program(void *l)
 {
 	(void)l;
 	exit(0);
 }
 
-void	init_values(t_game *game)
+void init_values(t_game *game)
 {
 	game->player.dirX = -1;
 	game->player.dirY = 0;
@@ -60,6 +113,7 @@ void	init_values(t_game *game)
 	game->player.planeY = 0.66;
 	game->player.moveSpeed = 0.05;
 	game->player.rotSpeed = 0.05;
+	get_player_pos(game);
 }
 
 /* int	main(void)

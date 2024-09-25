@@ -109,29 +109,39 @@ void wall_distance(t_game *game, t_ray *ray)
 
 void wall_height(t_game *game, t_ray *ray)
 {
-	// printf("WD: %f\n", ray->wallDist);
-	// printf("DIRX: %f\n", ray->dirX);
-	// printf("DIRY: %f\n", ray->dirY);
-	// printf("DAT %f\n", game->map_data.player_x + ray->wallDist * ray->dirX);
-	// printf("DAT2 %f\n", game->map_data.player_x + ray->wallDist * ray->dirY);
-	ray->lh = (int)(SCREEN_Y / ray->wallDist);
-	ray->drawStart = -ray->lh / 2 + SCREEN_Y / 2;
-	if (ray->drawStart < 0)
-		ray->drawStart = 0;
-	ray->drawEnd = ray->lh / 2 + SCREEN_Y / 2;
-	if (ray->drawEnd >= SCREEN_Y)
-		ray->drawEnd = SCREEN_Y - 1;
-	ray->wallX = game->map_data.player_x + ray->wallDist * ray->dirX;
-	if (ray->side == 0)
-		ray->wallX = game->map_data.player_y + ray->wallDist * ray->dirY;
-	ray->wallX -= floor(ray->wallX);
-	ray->texX = (int)(ray->wallX * (double)texWidth);
-	if (ray->side == 0 && ray->dirX > 0)
-		ray->texX = texWidth - ray->texX - 1;
-	if (ray->side == 1 && ray->dirY < 0)
-		ray->texX = texWidth - ray->texX - 1;
+    // Escalar la altura del muro para que ocupe la mitad de la pantalla
+    ray->lh = (int)((SCREEN_Y / ray->wallDist) / 2);  // Ocupa la mitad de la pantalla.
 
-	ray->step = 1.0 * texHeight / ray->lh;
-	ray->tex_pos = (ray->drawStart - SCREEN_Y / 2 + ray->lh / 2) * ray->step;
-	// printf("TEX %d\n", ray->texX);
+    // Ajustar para que el muro nunca llegue al borde superior o inferior
+    ray->lh = (ray->lh > SCREEN_Y / 2) ? SCREEN_Y / 2 : ray->lh;  // Limitar la altura máxima a la mitad de la pantalla.
+
+    // Calcular el punto de inicio para centrar el muro verticalmente
+    ray->drawStart = (SCREEN_Y / 4) - (ray->lh / 2);  // Centrar el muro en el centro de la mitad inferior de la pantalla.
+    if (ray->drawStart < 0)
+        ray->drawStart = 0;
+
+    // Calcular el punto final del dibujo del muro
+    ray->drawEnd = ray->drawStart + ray->lh;
+    if (ray->drawEnd >= SCREEN_Y)
+        ray->drawEnd = SCREEN_Y - 1;
+
+    // Cálculo de la posición de la textura
+    if (ray->side == 0)
+        ray->wallX = game->map_data.player_y + ray->wallDist * ray->dirY;
+    else
+        ray->wallX = game->map_data.player_x + ray->wallDist * ray->dirX;
+    
+    ray->wallX -= floor(ray->wallX);
+    ray->texX = (int)(ray->wallX * (double)texWidth);
+
+    // Ajustar el lado de la textura
+    if (ray->side == 0 && ray->dirX > 0)
+        ray->texX = texWidth - ray->texX - 1;
+    if (ray->side == 1 && ray->dirY < 0)
+        ray->texX = texWidth - ray->texX - 1;
+
+    // Calcular la posición en la textura
+    ray->step = 1.0 * texHeight / ray->lh;
+    ray->tex_pos = (ray->drawStart - SCREEN_Y / 2 + ray->lh / 2) * ray->step;
 }
+

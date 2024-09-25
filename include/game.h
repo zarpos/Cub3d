@@ -19,8 +19,8 @@
 #define PURPLE "./src/sprites/purplestone.xpm"
 #define BRICK "./src/sprites/redbrick.xpm"
 #define WOOD "./src/sprites/wood.xpm"
-#define SCREEN_X 640
-#define SCREEN_Y 480
+#define SCREEN_X 840
+#define SCREEN_Y 640
 #define KEY_PRESS 2
 #define W 119
 #define A 97

@@ -16,7 +16,7 @@ void init_orientation(t_game *game, char **map, int i, int j)
 {
 	char c;
 
-	c = map[i][j];
+	c = map[j][i];
 	if (c == 'S')
 	{
 		game->player.dirX = 0;
@@ -37,31 +37,34 @@ void init_orientation(t_game *game, char **map, int i, int j)
 		game->player.dirX = 0;
 		game->player.dirY = -1;
 	}
-	game->player.planeX = -game->player.dirY * 0.66;
-	game->player.planeY = game->player.dirX * 0.66;
+	game->player.planeX = game->player.dirY * 0.66;
+	game->player.planeY = -game->player.dirX * 0.66;
 }
-
 
 static void get_player_pos(t_game *game)
 {
-	int i;
-	int j;
+	char **map;
+	int y;
+	int x;
 
-	i = 0;
-	while (game->map_data.map[i])
+	y = 0;
+	map = game->map_data.map;
+	while (map[y])
 	{
-		j = 0;
-		while (game->map_data.map[i][j])
+		x = 0;
+		while (map[y][x] != '\n' && map[y][x])
 		{
-			if (ft_strchr("NESW", game->map_data.map[i][j]))
+			if (ft_strchr("NESW", map[y][x]))
 			{
-				game->map_data.player_x = i + 0.5;
-				game->map_data.player_y = j + 0.5;
-				init_orientation(game, game->map_data.map, i, j);
+				game->map_data.player_x = x + 0.5;
+				game->map_data.player_y = y + 0.5;
+				game->player.dirX = 0;
+				game->player.dirY = -1;
+				init_orientation(game, map, x, y);
 			}
-			j++;
+			x++;
 		}
-		i++;
+		y++;
 	}
 }
 
@@ -107,10 +110,10 @@ int end_program(void *l)
 
 void init_values(t_game *game)
 {
-	game->player.dirX = -1;
-	game->player.dirY = 0;
-	game->player.planeX = 0;
-	game->player.planeY = 0.66;
+	// game->player.dirX = -1;
+	// game->player.dirY = 0;
+	// game->player.planeX = 0;
+	// game->player.planeY = 0.66;
 	game->player.moveSpeed = 0.05;
 	game->player.rotSpeed = 0.05;
 	get_player_pos(game);

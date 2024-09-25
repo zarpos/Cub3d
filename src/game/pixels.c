@@ -19,7 +19,7 @@ void initialize_tex_buff(t_game *game)
 	i = 0;
 	game->tex_buf = ft_calloc(sizeof(int *), SCREEN_Y + 1);
 	if (!game->tex_buf)
-	ft_error("Error ala reservar memoria");
+		ft_error("Error ala reservar memoria");
 	game->tex_buf[SCREEN_Y] = NULL;
 	while (i < SCREEN_Y)
 	{
@@ -61,7 +61,7 @@ void pixel_map(t_game *game)
 		x = 0;
 		while (x < SCREEN_X)
 		{
-			color = game->map_data.floor_hex;
+			color = game->map_data.floor_hex;			
 			game->tex_buf[y][x] = color;
 			color = game->map_data.ceil_hex;
 			game->tex_buf[SCREEN_Y - y - 1][x] = color;

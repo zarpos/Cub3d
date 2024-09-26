@@ -16,16 +16,16 @@ void initialize_tex_buff(t_game *game)
 {
 	int i;
 
-	i = 0;
-	game->tex_buf = ft_calloc(sizeof(int *), SCREEN_Y + 1);
-	if (!game->tex_buf)
-		ft_error("Error ala reservar memoria");
+	game->tex_buf = (int **)ft_calloc(SCREEN_Y + 1, sizeof(int *));
+	if (game->tex_buf == NULL)
+		ft_error("Error: While init buffer");
 	game->tex_buf[SCREEN_Y] = NULL;
+	i = 0;
 	while (i < SCREEN_Y)
 	{
-		game->tex_buf[i] = ft_calloc(SCREEN_X, sizeof(int));
-		if (!game->tex_buf[i])
-			ft_error("Error ala reservar memoria");
+		game->tex_buf[i] = (int *)ft_calloc(SCREEN_X, sizeof(int));
+		if (game->tex_buf[i] == NULL)
+			ft_error("Error: While init buffer");
 		i++;
 	}
 }

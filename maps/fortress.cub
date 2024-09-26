@@ -1,7 +1,7 @@
 NO ./textures/mossy.xpm
 SO ./textures/bluestone.xpm
 WE ./textures/wood.xpm
-EA ./textures/eagle.xpm
+EA ./textures/redbrick.xpm
 
 F 112,112,112
 C 56,56,56

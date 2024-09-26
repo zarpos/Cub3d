@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:33:49 by fdiaz-gu          #+#    #+#             */
-/*   Updated: 2024/09/27 00:56:44 by marvin           ###   ########.fr       */
+/*   Updated: 2024/09/27 01:03:39 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,13 @@ void player_movements(t_game *game, int direction)
 
 	printf("DIR_X: %f\n", player->dirX);
 	if (game->map_data.map[(int)game->map_data.player_y]
-						  [(int)(pos_x + direction * player->dirX * 0.5)] == '0')
+						  [(int)(pos_x + direction * player->dirX * 1)] != '1')
 		game->map_data.player_x = pos_x;
-	if (game->map_data.map[(int)(pos_y + direction * player->dirY * 0.5)]
-						  [(int)game->map_data.player_x] == '0')
+	printf("pos_x: %f\n", pos_x);
+	if (game->map_data.map[(int)(pos_y + direction * player->dirY * 1)]
+						  [(int)game->map_data.player_x] != '1')
 		game->map_data.player_y = pos_y;
+	printf("pos_y: %f\n", pos_y);
 }
 
 static void lateral_mov(t_game *game, int key)
@@ -46,9 +48,9 @@ static void lateral_mov(t_game *game, int key)
 		pos_x = game->map_data.player_x + player->planeX * game->player.moveSpeed;
 		pos_y = game->map_data.player_y + player->planeY * game->player.moveSpeed;
 		if (game->map_data.map[(int)game->map_data.player_y]
-							  [(int)(pos_x + player->planeX * 0.1)] == '0')
+							  [(int)(pos_x + player->planeX * 1)] == '0')
 			game->map_data.player_x = pos_x;
-		if (game->map_data.map[(int)(pos_y + player->planeY * 0.1)]
+		if (game->map_data.map[(int)(pos_y + player->planeY * 1)]
 							  [(int)game->map_data.player_x] == '0')
 			game->map_data.player_y = pos_y;
 	}
@@ -57,9 +59,9 @@ static void lateral_mov(t_game *game, int key)
 		pos_x = game->map_data.player_x - player->planeX * game->player.moveSpeed;
 		pos_y = game->map_data.player_y - player->planeY * game->player.moveSpeed;
 		if (game->map_data.map[(int)game->map_data.player_y]
-							  [(int)(pos_x - player->planeX * 0.1)] == '0')
+							  [(int)(pos_x - player->planeX * 1)] == '0')
 			game->map_data.player_x = pos_x;
-		if (game->map_data.map[(int)(pos_y - player->planeY * 0.1)]
+		if (game->map_data.map[(int)(pos_y - player->planeY * 1)]
 							  [(int)game->map_data.player_x] == '0')
 			game->map_data.player_y = pos_y;
 	}

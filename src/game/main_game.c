@@ -56,10 +56,10 @@ static void get_player_pos(t_game *game)
 		{
 			if (ft_strchr("NESW", map[y][x]))
 			{
-				game->map_data.player_x = x + 0.5;
-				game->map_data.player_y = y + 0.5;
-				game->player.dirX = 0;
-				game->player.dirY = -1;
+				game->map_data.player_x = x;
+				game->map_data.player_y = y;
+				// game->player.dirX = 0;
+				// game->player.dirY = 0;
 				init_orientation(game, map, x, y);
 			}
 			x++;

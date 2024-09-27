@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drubio-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fdiaz-gu <fdiaz-gu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 01:58:40 by drubio-m          #+#    #+#             */
-/*   Updated: 2023/02/20 20:28:46 by drubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/27 16:01:58 by fdiaz-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	ft_valid_set(char c, char const *set)
 		if (set[i] == c)
 			return (1);
 		i++;
-	}	
+	}
 	return (0);
 }
 

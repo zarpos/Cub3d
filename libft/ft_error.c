@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_error.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drubio-m <drubio-m@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: fdiaz-gu <fdiaz-gu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:01:55 by drubio-m          #+#    #+#             */
-/*   Updated: 2024/09/21 21:40:11 by drubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/27 16:01:43 by fdiaz-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void ft_error(char *msg)
+void	ft_error(char *msg)
 {
 	printf(RED "Error: " RESET "%s\n", msg);
 	exit(EXIT_FAILURE);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drubio-m <drubio-m@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: fdiaz-gu <fdiaz-gu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 13:32:40 by drubio-m          #+#    #+#             */
-/*   Updated: 2023/03/23 17:21:28 by drubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/27 16:02:56 by fdiaz-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	ft_intlen(int n)
 }
 
 static int	ft_turn_to_positive(int n)
-{	
+{
 	if (n < 0)
 		n = -n;
 	return (n);

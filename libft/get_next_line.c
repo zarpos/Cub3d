@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fdiaz-gu <fdiaz-gu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 14:05:45 by drubio-m          #+#    #+#             */
-/*   Updated: 2024/09/24 23:51:45 by marvin           ###   ########.fr       */
+/*   Updated: 2024/09/27 16:01:31 by fdiaz-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_write_in_aux(int fd, char *aux)
 		return (NULL);
 	bytes = 1;
 	while (!ft_strchr2(aux, '\n') && bytes != 0)
-	{	
+	{
 		bytes = read(fd, buff, BUFFER_SIZE);
 		if (bytes == -1)
 		{
@@ -51,22 +51,3 @@ char	*get_next_line(int fd)
 	aux[fd] = ft_new_static(aux[fd]);
 	return (str);
 }
-
-/* int main(void)
-{
-	int fd1;
-	char	*str;
-	
-	fd1 = open("/Users/diegorubio/Documents/42Cursus/Cub3d/maps/arena.cub", O_RDONLY);
-	str = get_next_line(fd1);
-	printf("%s\n", str);
-	//str = get_next_line(fd1);
-	//printf("%s\n", str);
-	//str = get_next_line(fd1);
-	//printf("%s\n", str);
-	//str = get_next_line(fd1);
-	//printf("%s\n", str);
-	close(fd1);
-	return (0);
-} */
-

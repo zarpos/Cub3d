@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drubio-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fdiaz-gu <fdiaz-gu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:56:37 by drubio-m          #+#    #+#             */
-/*   Updated: 2022/04/10 20:05:29 by drubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/27 16:02:30 by fdiaz-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 		dst[j] = src[j];
 		j++;
 	}
-		dst[j] = '\0';
+	dst[j] = '\0';
 	return (i);
 }
 /*

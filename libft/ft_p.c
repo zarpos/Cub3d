@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_p.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drubio-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fdiaz-gu <fdiaz-gu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 17:58:27 by drubio-m          #+#    #+#             */
-/*   Updated: 2023/02/22 17:01:14 by drubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/27 16:02:48 by fdiaz-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 int	aux_pointer(unsigned long n, char *hex)
-{	
+{
 	int	i;
 
 	i = 0;

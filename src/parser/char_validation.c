@@ -6,7 +6,7 @@
 /*   By: fdiaz-gu <fdiaz-gu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 22:23:42 by drubio-m          #+#    #+#             */
-/*   Updated: 2024/09/27 12:48:22 by fdiaz-gu         ###   ########.fr       */
+/*   Updated: 2024/09/27 13:34:16 by fdiaz-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,8 @@ int check_chars(t_game *game, char value, int x, int y)
 
 	if (value == 'N' || value == 'S' || value == 'E' || value == 'W')
 	{
-		game->map_data.player_y = y;
-		game->map_data.player_x = x;
-		printf("PX PAR: %f\n", game->map_data.player_x);
-		printf("PY PAR: %f\n", game->map_data.player_y);
+		game->map_data.player_y = (y * WALL_SIZE) + (WALL_SIZE / 2);
+		game->map_data.player_x = (x * WALL_SIZE) + (WALL_SIZE / 2);
 		return (1);
 	}
 	return (0);

@@ -17,16 +17,16 @@ void	render_walls(t_game *game, t_ray *ray, int x, int y)
 	int	color;
 	int	tex_y;
 
-	tex_y = (int)ray->tex_pos & (texHeight - 1);
+	tex_y = (int)ray->tex_pos & (TEXHEIGHT - 1);
 	ray->tex_pos += ray->step;
 	ray->tex_n = 0;
-	if (ray->side == 0 && ray->dirX > 0)
+	if (ray->side == 0 && ray->dir_x > 0)
 		ray->tex_n = 3;
-	else if (ray->side == 0 && ray->dirX < 0)
+	else if (ray->side == 0 && ray->dir_x < 0)
 		ray->tex_n = 2;
-	else if (ray->side == 1 && ray->dirY > 0)
+	else if (ray->side == 1 && ray->dir_y > 0)
 		ray->tex_n = 1;
-	color = game->texture[ray->tex_n][texHeight * tex_y + ray->texX];
+	color = game->texture[ray->tex_n][TEXHEIGHT * tex_y + ray->tex_x];
 	if (ray->side == 1)
 		color = (color >> 1) & 8355711;
 	game->tex_buf[y][SCREEN_X - x - 1] = color;
@@ -34,41 +34,41 @@ void	render_walls(t_game *game, t_ray *ray, int x, int y)
 
 void	init_raycast_variables(t_game *game, t_ray *ray, int x)
 {
-	ray->camX = 2 * x / (double)SCREEN_X - 1;
-	ray->dirX = game->player.dirX + game->player.planeX * ray->camX;
-	ray->dirY = game->player.dirY + game->player.planeY * ray->camX;
-	ray->mapX = (int)game->map_data.player_x;
-	ray->mapY = (int)game->map_data.player_y;
-	ray->deltaDistX = fabs(1 / ray->dirX);
-	ray->deltaDistY = fabs(1 / ray->dirY);
+	ray->cam_x = 2 * x / (double)SCREEN_X - 1;
+	ray->dir_x = game->player.dir_x + game->player.plane_x * ray->cam_x;
+	ray->dir_y = game->player.dir_y + game->player.plane_y * ray->cam_x;
+	ray->map_x = (int)game->map_data.player_x;
+	ray->map_y = (int)game->map_data.player_y;
+	ray->deltadist_x = fabs(1 / ray->dir_x);
+	ray->deltadist_y = fabs(1 / ray->dir_y);
 	ray->hit = 0;
 }
 
 void	looping_rays(t_game *game, t_ray *ray)
 {
-	if (ray->dirX < 0)
+	if (ray->dir_x < 0)
 	{
-		ray->stepX = -1;
-		ray->sideDistX = (game->map_data.player_x - ray->mapX) * \
-		ray->deltaDistX;
+		ray->step_x = -1;
+		ray->sidedist_x = (game->map_data.player_x - ray->map_x) * \
+		ray->deltadist_x;
 	}
 	else
 	{
-		ray->stepX = 1;
-		ray->sideDistX = (ray->mapX + 1.0 - game->map_data.player_x) * \
-		ray->deltaDistX;
+		ray->step_x = 1;
+		ray->sidedist_x = (ray->map_x + 1.0 - game->map_data.player_x) * \
+		ray->deltadist_x;
 	}
-	if (ray->dirY < 0)
+	if (ray->dir_y < 0)
 	{
-		ray->stepY = -1;
-		ray->sideDistY = (game->map_data.player_y - ray->mapY) * \
-		ray->deltaDistY;
+		ray->step_y = -1;
+		ray->sidedist_y = (game->map_data.player_y - ray->map_y) * \
+		ray->deltadist_y;
 	}
 	else
 	{
-		ray->stepY = 1;
-		ray->sideDistY = (ray->mapY + 1.0 - game->map_data.player_y) * \
-		ray->deltaDistY;
+		ray->step_y = 1;
+		ray->sidedist_y = (ray->map_y + 1.0 - game->map_data.player_y) * \
+		ray->deltadist_y;
 	}
 }
 
@@ -76,47 +76,47 @@ void	wall_distance(t_game *game, t_ray *ray)
 {
 	while (ray->hit == 0)
 	{
-		if (ray->sideDistX < ray->sideDistY)
+		if (ray->sidedist_x < ray->sidedist_y)
 		{
-			ray->sideDistX += ray->deltaDistX;
-			ray->mapX += ray->stepX;
+			ray->sidedist_x += ray->deltadist_x;
+			ray->map_x += ray->step_x;
 			ray->side = 0;
 		}
 		else
 		{
-			ray->sideDistY += ray->deltaDistY;
-			ray->mapY += ray->stepY;
+			ray->sidedist_y += ray->deltadist_y;
+			ray->map_y += ray->step_y;
 			ray->side = 1;
 		}
-		if (ft_strchr("NSEW0", game->map_data.map[ray->mapY] \
-		[ray->mapX]) == NULL)
+		if (ft_strchr("NSEW0", game->map_data.map[ray->map_y] \
+		[ray->map_x]) == NULL)
 			ray->hit = 1;
 	}
 }
 
 void	wall_height(t_game *game, t_ray *ray)
 {
-	ray->wallDist = (ray->mapY - game->map_data.player_y + \
-	(1 - ray->stepY) / 2) / ray->dirY;
+	ray->wall_dist = (ray->map_y - game->map_data.player_y + \
+	(1 - ray->step_y) / 2) / ray->dir_y;
 	if (ray->side == 0)
-		ray->wallDist = (ray->mapX - game->map_data.player_x + \
-		(1 - ray->stepX) / 2) / ray->dirX;
-	ray->lh = (int)(SCREEN_Y / ray->wallDist);
-	ray->drawStart = -ray->lh / 2 + SCREEN_Y / 2;
-	if (ray->drawStart < 0)
-		ray->drawStart = 0;
-	ray->drawEnd = ray->lh / 2 + SCREEN_Y / 2;
-	if (ray->drawEnd >= SCREEN_Y)
-		ray->drawEnd = SCREEN_Y - 1;
-	ray->wallX = game->map_data.player_x + ray->wallDist * ray->dirX;
+		ray->wall_dist = (ray->map_x - game->map_data.player_x + \
+		(1 - ray->step_x) / 2) / ray->dir_x;
+	ray->lh = (int)(SCREEN_Y / ray->wall_dist);
+	ray->draw_start = -ray->lh / 2 + SCREEN_Y / 2;
+	if (ray->draw_start < 0)
+		ray->draw_start = 0;
+	ray->draw_end = ray->lh / 2 + SCREEN_Y / 2;
+	if (ray->draw_end >= SCREEN_Y)
+		ray->draw_end = SCREEN_Y - 1;
+	ray->wall_x = game->map_data.player_x + ray->wall_dist * ray->dir_x;
 	if (ray->side == 0)
-		ray->wallX = game->map_data.player_y + ray->wallDist * ray->dirY;
-	ray->wallX -= floor(ray->wallX);
-	ray->texX = (int)(ray->wallX * (double)texWidth);
-	if (ray->side == 0 && ray->dirX > 0)
-		ray->texX = texWidth - ray->texX - 1;
-	if (ray->side == 1 && ray->dirY < 0)
-		ray->texX = texWidth - ray->texX - 1;
-	ray->step = 1.0 * texHeight / ray->lh;
-	ray->tex_pos = (ray->drawStart - SCREEN_Y / 2 + ray->lh / 2) * ray->step;
+		ray->wall_x = game->map_data.player_y + ray->wall_dist * ray->dir_y;
+	ray->wall_x -= floor(ray->wall_x);
+	ray->tex_x = (int)(ray->wall_x * (double)TEXWIDTH);
+	if (ray->side == 0 && ray->dir_x > 0)
+		ray->tex_x = TEXWIDTH - ray->tex_x - 1;
+	if (ray->side == 1 && ray->dir_y < 0)
+		ray->tex_x = TEXWIDTH - ray->tex_x - 1;
+	ray->step = 1.0 * TEXHEIGHT / ray->lh;
+	ray->tex_pos = (ray->draw_start - SCREEN_Y / 2 + ray->lh / 2) * ray->step;
 }

@@ -34,7 +34,7 @@ void	load_xpm(t_game *game, int *tex, char *path, t_img *img)
 		ft_error("Error al cargar la imagen");
 	img->data = (int *)mlx_get_data_addr(img->img, &img->bpp, \
 	&img->len, &img->endian);
-	if (!img->data || img->width != texWidth || img->height != texHeight)
+	if (!img->data || img->width != TEXWIDTH || img->height != TEXHEIGHT)
 		ft_error("Error en la imagen");
 	while (y < img->height)
 	{
@@ -74,7 +74,7 @@ void	handle_wall_imgs(t_game *game)
 		return ;
 	while (i < 4)
 	{
-		game->texture[i] = ft_calloc(sizeof(int), (texWidth * texHeight + 1));
+		game->texture[i] = ft_calloc(sizeof(int), (TEXWIDTH * TEXHEIGHT + 1));
 		if (!game->texture[i++])
 			ft_error("Error en la texturas");
 	}
@@ -82,7 +82,7 @@ void	handle_wall_imgs(t_game *game)
 	while (j < 4)
 	{
 		j = 0;
-		while (j < texHeight * texWidth)
+		while (j < TEXHEIGHT * TEXWIDTH)
 		{
 			game->texture[i][j] = 0;
 			j++;

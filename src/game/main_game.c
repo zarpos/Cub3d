@@ -19,26 +19,26 @@ void	init_orientation(t_game *game, char **map, int i, int j)
 	c = map[j][i];
 	if (c == 'S')
 	{
-		game->player.dirX = 0;
-		game->player.dirY = 1;
+		game->player.dir_x = 0;
+		game->player.dir_y = 1;
 	}
 	else if (c == 'E')
 	{
-		game->player.dirX = 1;
-		game->player.dirY = 0;
+		game->player.dir_x = 1;
+		game->player.dir_y = 0;
 	}
 	else if (c == 'W')
 	{
-		game->player.dirX = -1;
-		game->player.dirY = 0;
+		game->player.dir_x = -1;
+		game->player.dir_y = 0;
 	}
 	else if (c == 'N')
 	{
-		game->player.dirX = 0;
-		game->player.dirY = -1;
+		game->player.dir_x = 0;
+		game->player.dir_y = -1;
 	}
-	game->player.planeX = game->player.dirY * 0.66;
-	game->player.planeY = -game->player.dirX * 0.66;
+	game->player.plane_x = game->player.dir_y * 0.66;
+	game->player.plane_y = -game->player.dir_x * 0.66;
 }
 
 static void	get_player_pos(t_game *game)
@@ -89,8 +89,8 @@ int	handle_raycasting(t_game *game)
 		looping_rays(game, &ray);
 		wall_distance(game, &ray);
 		wall_height(game, &ray);
-		y = ray.drawStart;
-		while (y < ray.drawEnd)
+		y = ray.draw_start;
+		while (y < ray.draw_end)
 		{
 			render_walls(game, &ray, x, y);
 			y++;
@@ -109,8 +109,8 @@ void	init_values(t_game *game)
 	game->keys.right = 0;
 	game->keys.left = 0;
 	game->keys.esc = 0;
-	game->player.moveSpeed = 0.01;
-	game->player.rotSpeed = 0.05;
+	game->player.move_speed = 0.01;
+	game->player.rot_speed = 0.05;
 	game->tex_buf = NULL;
 	game->texture = NULL;
 	get_player_pos(game);

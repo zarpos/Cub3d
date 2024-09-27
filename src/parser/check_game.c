@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   check_game.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drubio-m <drubio-m@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: fdiaz-gu <fdiaz-gu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 22:00:45 by drubio-m          #+#    #+#             */
-/*   Updated: 2024/09/23 20:47:11 by drubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/27 15:43:20 by fdiaz-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-//TODO: Refactorizar
 
 #include "cub3d.h"
 

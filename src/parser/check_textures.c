@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   check_textures.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drubio-m <drubio-m@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: fdiaz-gu <fdiaz-gu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 21:22:17 by drubio-m          #+#    #+#             */
-/*   Updated: 2024/09/24 18:40:34 by drubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/27 15:43:41 by fdiaz-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-t_texture read_texture(char *line)
+t_texture	read_texture(char *line)
 {
 	while (*line && (*line == ' ' || *line == '	'))
 		line++;
@@ -30,7 +30,6 @@ t_texture read_texture(char *line)
 		return (C);
 	return (Error);
 }
-
 
 char	*get_texture(char *line)
 {

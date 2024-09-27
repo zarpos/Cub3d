@@ -3,23 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   check_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drubio-m <drubio-m@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: fdiaz-gu <fdiaz-gu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:55:30 by drubio-m          #+#    #+#             */
-/*   Updated: 2024/09/24 18:40:16 by drubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/27 15:43:00 by fdiaz-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-#include <unistd.h> // Para access
+#include <unistd.h>
 
 int	open_validated_file(char **argv)
 {
 	int		len;
 	int		fd;
 	char	*file_ext;
-//	char	buffer[1];
 
 	len = ft_strlen(argv[1]);
 	if (len < 4)
@@ -34,8 +33,6 @@ int	open_validated_file(char **argv)
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
 		ft_error("Error while opening file.");
-	//if (read(fd, buffer, 1) == 0)
-	//	ft_error("Empty map file");
 	return (fd);
 }
 
@@ -59,36 +56,13 @@ void	verify_blank_line(char *line)
 
 	if (count == 6 && ft_strlen(line) > 1 && !enter)
 		enter = 1;
-
 	if (count < 6 && ft_strlen(line) > 1)
 		count++;
-
 	if (enter && ft_strlen(line) == 1 && !exit)
 		exit++;
-
 	if ((ft_strlen(line) > 1 || *line != '\n') && exit)
 		ft_error("Empty line in map is not allowed.");
 }
-
-/* char	*convert_lines(int fd)
-{
-	char	*file;
-	char	*line;
-
-	line = get_next_line(fd);
-	file = ft_calloc(1, 1);
-	if (!file)
-		exit(1);
-	while (line != NULL)
-	{
-		verify_blank_line(line);
-		file = ft_strjoin(file, line);
-		free(line);
-		line = get_next_line(fd);
-	}
-	free(line);
-	return (file);
-} */
 
 char	*convert_lines(int fd)
 {
@@ -103,10 +77,10 @@ char	*convert_lines(int fd)
 		exit(1);
 	while (line != NULL)
 	{
-	    verify_blank_line(line);
-	    file = ft_fstrjoin(file, line);
-	    free(line);
-	    line = get_next_line(fd);
+		verify_blank_line(line);
+		file = ft_fstrjoin(file, line);
+		free(line);
+		line = get_next_line(fd);
 	}
 	free(line);
 	return (file);
@@ -121,6 +95,5 @@ char	**check_args(int argc, char **argv)
 		ft_error("Invalid number of arguments");
 	fd = open_validated_file(argv);
 	file_con = process_file(fd);
-
 	return (file_con);
 }

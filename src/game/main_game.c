@@ -58,8 +58,6 @@ static void get_player_pos(t_game *game)
 			{
 				game->map_data.player_x = x;
 				game->map_data.player_y = y;
-				// game->player.dirX = 0;
-				// game->player.dirY = 0;
 				init_orientation(game, map, x, y);
 			}
 			x++;
@@ -73,6 +71,7 @@ int main_loop(t_game *game)
 	pixel_map(game);
 	handle_raycasting(game);
 	draw_img(game);
+	handle_movements(game);
 	mlx_do_sync(game->mlx);
 	return (1);
 }
@@ -108,9 +107,15 @@ int end_program(void *l)
 }
 
 void init_values(t_game *game)
-{
-
-	game->player.moveSpeed = 0.05;
+{	
+	game->keys.a = 0;
+	game->keys.w = 0;
+	game->keys.d = 0;
+	game->keys.s = 0;
+	game->keys.right = 0;
+	game->keys.left = 0;
+	game->keys.esc= 0;
+	game->player.moveSpeed = 0.01;
 	game->player.rotSpeed = 0.05;
 	game->tex_buf = NULL;
 	game->texture = NULL;

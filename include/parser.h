@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drubio-m <drubio-m@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: fdiaz-gu <fdiaz-gu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 13:52:12 by drubio-m          #+#    #+#             */
-/*   Updated: 2024/09/24 18:16:20 by drubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/27 12:48:10 by fdiaz-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ typedef struct s_map
 	t_color	ceiling;
 	int		max_x;
 	int		max_y;
-	int		player_x;
-	int		player_y;
+	double	player_x;
+	double	player_y;
 	int		floor_hex;
 	int		ceil_hex;
 }	t_map;

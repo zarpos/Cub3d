@@ -3,67 +3,67 @@
 /*                                                        :::      ::::::::   */
 /*   movements.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fdiaz-gu <fdiaz-gu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:33:49 by fdiaz-gu          #+#    #+#             */
-/*   Updated: 2024/09/27 01:03:39 by marvin           ###   ########.fr       */
+/*   Updated: 2024/09/27 13:31:14 by fdiaz-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 void print_map_with_player(t_game *game);
 
-//TODO: cambiar y hacer una structura para las teclas
-void player_movements(t_game *game, int direction)
+void player_movements(t_game *game)
 {
-	double pos_x;
-	double pos_y;
-	t_player *player;
+	char	**map;
+	double	speed;
 
-	player = &game->player;
+	speed = game->player.moveSpeed * 4;
+	map = game->map_data.map;
 
-	pos_x = game->map_data.player_x + direction * player->dirX * game->player.moveSpeed;
-	pos_y = game->map_data.player_y + direction * player->dirY * game->player.moveSpeed;
-
-	printf("DIR_X: %f\n", player->dirX);
-	if (game->map_data.map[(int)game->map_data.player_y]
-						  [(int)(pos_x + direction * player->dirX * 1)] != '1')
-		game->map_data.player_x = pos_x;
-	printf("pos_x: %f\n", pos_x);
-	if (game->map_data.map[(int)(pos_y + direction * player->dirY * 1)]
-						  [(int)game->map_data.player_x] != '1')
-		game->map_data.player_y = pos_y;
-	printf("pos_y: %f\n", pos_y);
+	if (game->keys.w)
+	{
+		// Movimiento hacia adelante
+		if (ft_strchr("NSEW0", map[(int)(game->map_data.player_y + game->player.dirY * (speed + 0.5))][(int)(game->map_data.player_x)]) != NULL)
+			game->map_data.player_y += game->player.dirY * speed;
+		if (ft_strchr("NSEW0", map[(int)(game->map_data.player_y)][(int)(game->map_data.player_x + game->player.dirX * (speed + 0.5))]) != NULL)
+			game->map_data.player_x += game->player.dirX * speed;
+	}
+	if (game->keys.s)
+	{
+		// Movimiento hacia atrás
+		if (ft_strchr("NSEW0", map[(int)(game->map_data.player_y - game->player.dirY * (speed + 0.5))][(int)(game->map_data.player_x)]) != NULL)
+			game->map_data.player_y -= game->player.dirY * speed;
+		if (ft_strchr("NSEW0", map[(int)(game->map_data.player_y)][(int)(game->map_data.player_x - game->player.dirX * (speed + 0.5))]) != NULL)
+			game->map_data.player_x -= game->player.dirX * speed;
+	}
 }
 
-static void lateral_mov(t_game *game, int key)
-{
-	double pos_x;
-	double pos_y;
-	t_player *player;
 
-	player = &game->player;
-	if (key == D)
+static void lateral_mov(t_game *game)
+{
+char	**map;
+	double	speed;
+
+	speed = game->player.moveSpeed * 4;
+	map = game->map_data.map;
+	if (game->keys.d)
 	{
-		pos_x = game->map_data.player_x + player->planeX * game->player.moveSpeed;
-		pos_y = game->map_data.player_y + player->planeY * game->player.moveSpeed;
-		if (game->map_data.map[(int)game->map_data.player_y]
-							  [(int)(pos_x + player->planeX * 1)] == '0')
-			game->map_data.player_x = pos_x;
-		if (game->map_data.map[(int)(pos_y + player->planeY * 1)]
-							  [(int)game->map_data.player_x] == '0')
-			game->map_data.player_y = pos_y;
+		if (ft_strchr("NSEW0", map[(int)(game->map_data.player_y + game->player.dirX * \
+		(speed + 0.25))][(int)(game->map_data.player_x)]) != NULL)
+			game->map_data.player_y += game->player.dirX * speed;
+		if (ft_strchr("NSEW0", map[(int)(game->map_data.player_y)][(int)(game->map_data.player_x - game->player.dirY * \
+		(speed + 0.25))]) != NULL)
+			game->map_data.player_x -= game->player.dirY * speed;
 	}
-	else if (key == A)
+	if (game->keys.a)
 	{
-		pos_x = game->map_data.player_x - player->planeX * game->player.moveSpeed;
-		pos_y = game->map_data.player_y - player->planeY * game->player.moveSpeed;
-		if (game->map_data.map[(int)game->map_data.player_y]
-							  [(int)(pos_x - player->planeX * 1)] == '0')
-			game->map_data.player_x = pos_x;
-		if (game->map_data.map[(int)(pos_y - player->planeY * 1)]
-							  [(int)game->map_data.player_x] == '0')
-			game->map_data.player_y = pos_y;
+		if (ft_strchr("NSEW0", map[(int)(game->map_data.player_y - game->player.dirX * \
+		(speed + 0.25))][(int)(game->map_data.player_x)]) != NULL)
+			game->map_data.player_y -= game->player.dirX * speed;
+		if (ft_strchr("NSEW0", map[(int)(game->map_data.player_y)][(int)(game->map_data.player_x + game->player.dirY * \
+		(speed + 0.25))]) != NULL)
+			game->map_data.player_x += game->player.dirY * speed;
 	}
 }
 // void print_map_with_player(t_game * game)
@@ -71,7 +71,7 @@ static void lateral_mov(t_game *game, int key)
 // 	char **map = game->map_data.map;
 // 	int map_height = game->map_data.max_y; // Ajusta esto si tienes una variable de altura del mapa
 // 	int map_width = game->map_data.max_x;  // Ajusta esto si tienes una variable de ancho del mapa
-// 	int player_x = (int)game->map_data.player_x;
+// 	int player_x = (int)game->map_data.player_y;
 // 	int player_y = (int)game->map_data.player_y;
 
 // 	for (int y = 0; y < map_height; y++)
@@ -100,31 +100,27 @@ static void player_rotations(t_game *game, double rotSpeed)
 	game->player.planeY = old_plane_x * sin(rotSpeed) + game->player.planeY * cos(rotSpeed);
 }
 
-static void player_vision(int keycode, t_game *game)
+static void player_vision(t_game *game)
 {
-	if (keycode == LEFT)
+	if (game->keys.left)
 		player_rotations(game, -game->player.rotSpeed);
-	if (keycode == RIGHT)
+	if (game->keys.right)
 		player_rotations(game, game->player.rotSpeed);
-	if (keycode == A)
-		lateral_mov(game, A);
-	if (keycode == D)
-		lateral_mov(game, D);
 }
 
-static void player_movement(int keycode, t_game *game)
-{
-	if (keycode == W)
-		player_movements(game, FORWARD);
-	if (keycode == S)
-		player_movements(game, BACKWARD);
-}
+// static void player_movement(t_game *game)
+// {
+// 	player_movements(game);
+// 	// if (game->keys.a)
+// 	// 	lateral_mov(game, A);
+// 	// if (game->keys.d)
+// 	// 	lateral_mov(game, D);
+// }
 
-int handle_keys(int keycode, t_game *game)
+int handle_movements(t_game *game)
 {
-	player_movement(keycode, game);
-	player_vision(keycode, game);
-	if (keycode == K_ESC)
-		end_program(game);
+	player_movements(game);
+	lateral_mov(game);
+	player_vision(game);
 	return (0);
 }

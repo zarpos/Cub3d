@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   char_validation.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fdiaz-gu <fdiaz-gu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 22:23:42 by drubio-m          #+#    #+#             */
-/*   Updated: 2024/09/25 01:28:52 by marvin           ###   ########.fr       */
+/*   Updated: 2024/09/27 12:48:22 by fdiaz-gu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int check_chars(t_game *game, char value, int x, int y)
 	{
 		game->map_data.player_y = y;
 		game->map_data.player_x = x;
-		printf("PX PAR: %d\n", game->map_data.player_x);
-		printf("PY PAR: %d\n", game->map_data.player_y);
+		printf("PX PAR: %f\n", game->map_data.player_x);
+		printf("PY PAR: %f\n", game->map_data.player_y);
 		return (1);
 	}
 	return (0);

@@ -22,6 +22,7 @@
 #define SCREEN_X 800
 #define SCREEN_Y 600
 #define KEY_PRESS 2
+#define KEY_OFF 3
 #define W 119
 #define A 97
 #define S 115
@@ -76,6 +77,16 @@ typedef struct s_player
 
 } t_parser;
  */
+
+typedef	struct s_keys{
+	int	a;
+	int w;
+	int d;
+	int s;
+	int	right;
+	int left;
+	int esc;
+}	t_keys;
 
 typedef struct s_ray
 {
@@ -148,6 +159,7 @@ typedef struct s_game
 	t_player player;
 	t_img image;
 	t_ray ray;
+	t_keys keys;
 
 } t_game;
 
@@ -159,7 +171,8 @@ void init_raycast_variables(t_game *game, t_ray *ray, int x);
 void looping_rays(t_game *game, t_ray *ray);
 void wall_distance(t_game *game, t_ray *ray);
 void wall_height(t_game *game, t_ray *ray);
-int handle_keys(int keycode, t_game *game);
+// int handle_keys(int keycode, t_game *game);
+int handle_movements(t_game *game);
 int end_program(void *l);
 void pixel_map(t_game *game);
 void    load_imgs(t_game *game);

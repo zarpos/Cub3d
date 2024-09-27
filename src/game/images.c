@@ -15,40 +15,44 @@
 void	draw_foor_ceiling(t_game *game)
 {
 	game->map_data.ceil_hex = ((game->map_data.ceiling.red & 0xFF) << 16) | \
-		(game->map_data.ceiling.green & 0xFF) << 8 | (game->map_data.ceiling.blue & 0xFF);
+		(game->map_data.ceiling.green & 0xFF) << 8 | \
+		(game->map_data.ceiling.blue & 0xFF);
 	game->map_data.floor_hex = ((game->map_data.floor.red & 0xFF) << 16) | \
-		(game->map_data.floor.green & 0xFF) << 8 | (game->map_data.floor.blue & 0xFF);
+		(game->map_data.floor.green & 0xFF) << 8 | \
+		(game->map_data.floor.blue & 0xFF);
 }
 
-void load_xpm(t_game *game, int *tex, char *path, t_img *img)
+void	load_xpm(t_game *game, int *tex, char *path, t_img *img)
 {
-    int x;
-    int y;
+	int	x;
+	int	y;
 
-    y = 0;    
-    img->img = mlx_xpm_file_to_image(game->mlx, path, &img->width, &img->height);
-    if (!img->img)
-        ft_error("Error al cargar la imagen");
-    img->data = (int *)mlx_get_data_addr(img->img, &img->bpp, &img->len, &img->endian);
-    if (!img->data || img->width != texWidth || img->height != texHeight) 
+	y = 0;
+	img->img = mlx_xpm_file_to_image(game->mlx, path, \
+	&img->width, &img->height);
+	if (!img->img)
+		ft_error("Error al cargar la imagen");
+	img->data = (int *)mlx_get_data_addr(img->img, &img->bpp, \
+	&img->len, &img->endian);
+	if (!img->data || img->width != texWidth || img->height != texHeight)
 		ft_error("Error en la imagen");
-
-    while (y < img->height) {
-        x = 0;
-        while (x < img->width) {
-            tex[img->width * y + x] = img->data[img->width * y + x];
-            x++;
-        }
-        y++;
-    }
-    mlx_destroy_image(game->mlx, img->img);
+	while (y < img->height)
+	{
+		x = 0;
+		while (x < img->width)
+		{
+			tex[img->width * y + x] = img->data[img->width * y + x];
+			x++;
+		}
+		y++;
+	}
+	mlx_destroy_image(game->mlx, img->img);
 }
-
 
 void	load_images(t_game *game)
 {
 	t_img	img;
-	
+
 	load_xpm(game, game->texture[0], game->map_data.so, &img);
 	load_xpm(game, game->texture[1], game->map_data.no, &img);
 	load_xpm(game, game->texture[2], game->map_data.we, &img);

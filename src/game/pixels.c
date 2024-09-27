@@ -12,9 +12,15 @@
 
 #include "../../include/cub3d.h"
 
-void initialize_tex_buff(t_game *game)
+int	end_program(void *l)
 {
-	int i;
+	(void)l;
+	exit(0);
+}
+
+void	initialize_tex_buff(t_game *game)
+{
+	int	i;
 
 	game->tex_buf = (int **)ft_calloc(SCREEN_Y + 1, sizeof(int *));
 	if (game->tex_buf == NULL)
@@ -30,10 +36,10 @@ void initialize_tex_buff(t_game *game)
 	}
 }
 
-void draw_img(t_game *game)
+void	draw_img(t_game *game)
 {
-	int x;
-	int y;
+	int	x;
+	int	y;
 
 	y = 0;
 	while (y < SCREEN_Y)
@@ -49,11 +55,11 @@ void draw_img(t_game *game)
 	mlx_put_image_to_window(game->mlx, game->mlx_win, game->image.img, 0, 0);
 }
 
-void pixel_map(t_game *game)
+void	pixel_map(t_game *game)
 {
-	int y;
-	int x;
-	int color;
+	int	y;
+	int	x;
+	int	color;
 
 	y = 0;
 	while (y < SCREEN_Y)
@@ -61,7 +67,7 @@ void pixel_map(t_game *game)
 		x = 0;
 		while (x < SCREEN_X)
 		{
-			color = game->map_data.floor_hex;			
+			color = game->map_data.floor_hex;
 			game->tex_buf[y][x] = color;
 			color = game->map_data.ceil_hex;
 			game->tex_buf[SCREEN_Y - y - 1][x] = color;

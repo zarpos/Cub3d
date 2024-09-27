@@ -12,9 +12,9 @@
 
 #include "../../include/cub3d.h"
 
-void init_orientation(t_game *game, char **map, int i, int j)
+void	init_orientation(t_game *game, char **map, int i, int j)
 {
-	char c;
+	char	c;
 
 	c = map[j][i];
 	if (c == 'S')
@@ -41,11 +41,11 @@ void init_orientation(t_game *game, char **map, int i, int j)
 	game->player.planeY = -game->player.dirX * 0.66;
 }
 
-static void get_player_pos(t_game *game)
+static void	get_player_pos(t_game *game)
 {
-	char **map;
-	int y;
-	int x;
+	char	**map;
+	int		y;
+	int		x;
 
 	y = 0;
 	map = game->map_data.map;
@@ -66,7 +66,7 @@ static void get_player_pos(t_game *game)
 	}
 }
 
-int main_loop(t_game *game)
+int	main_loop(t_game *game)
 {
 	pixel_map(game);
 	handle_raycasting(game);
@@ -76,11 +76,11 @@ int main_loop(t_game *game)
 	return (1);
 }
 
-int handle_raycasting(t_game *game)
+int	handle_raycasting(t_game *game)
 {
-	int x;
-	int y;
-	t_ray ray;
+	int		x;
+	int		y;
+	t_ray	ray;
 
 	x = 0;
 	while (x < SCREEN_X)
@@ -100,21 +100,15 @@ int handle_raycasting(t_game *game)
 	return (0);
 }
 
-int end_program(void *l)
+void	init_values(t_game *game)
 {
-	(void)l;
-	exit(0);
-}
-
-void init_values(t_game *game)
-{	
 	game->keys.a = 0;
 	game->keys.w = 0;
 	game->keys.d = 0;
 	game->keys.s = 0;
 	game->keys.right = 0;
 	game->keys.left = 0;
-	game->keys.esc= 0;
+	game->keys.esc = 0;
 	game->player.moveSpeed = 0.01;
 	game->player.rotSpeed = 0.05;
 	game->tex_buf = NULL;
